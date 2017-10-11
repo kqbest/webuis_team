@@ -1,129 +1,140 @@
 <template>
   <section class="regionalManagement">
-    <!-- 头部 -->
-    <header>
-      <div class="this_breadcrumb">
+    <nav class="pub_select">
+      <el-form ref="navForm" :model="navForm" label-width="86px">
+        <el-row>
+          <el-col>
+            <el-form-item label="院区目录:">
+              <el-cascader :props="treeProps" :options="treeOptions" v-model="navForm.treeValue" change-on-select></el-cascader>
+            </el-form-item>
+          </el-col>
+          <el-col>
+            <el-form-item label="院区编号:">
+              <el-input v-model="navForm.code" placeholder="请输入院区编号"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col>
+            <el-form-item label="院区名称:">
+              <el-input v-model="navForm.name" placeholder="请输入院区名称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-button class="mlem" type="primary" @click="findPage">查询</el-button>
+          <el-button class="mlem" @click="resetForm('navForm')">重置</el-button>
+        </el-row>
+      </el-form>
+    </nav>
+    <section class="pub_hr">
+      <div>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>其他设置</el-breadcrumb-item>
-          <el-breadcrumb-item>地区管理</el-breadcrumb-item>
+          <el-breadcrumb-item>系统管理</el-breadcrumb-item>
+          <el-breadcrumb-item>系统设置</el-breadcrumb-item>
+          <el-breadcrumb-item>院区管理</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
-      <nav class="this_nav">
-        <el-form :inline="true" :model="navForm" ref="navForm" class="demo-form-inline">
-          <el-form-item label="地区目录:" prop="treeValue">
-            <el-cascader :props="treeProps" :options="treeOptions" v-model="navForm.treeValue" change-on-select></el-cascader>
-          </el-form-item>
-          <el-form-item label="地区名称:" prop="user">
-            <el-input v-model="navForm.user" placeholder="地区名称"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="findPage()">查询</el-button>
-            <el-button @click="resetForm('navForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </nav>
-      <h2 class="this_total">
-        <el-button type="primary" class="mr10" @click="alert.formAddVisible = true;addInfo()">新建</el-button>
-        <el-button class="mr10" @click="findPage()">刷新</el-button>
-        共<em class="em">{{ totalCount }}</em>条记录
-      </h2>
-    </header>
+      <div>
+        <el-button class="mlem" type="primary"  @click="addInfo()">新建</el-button>
+        <el-button class="mlem">刷新</el-button>
+        <span class="mlem">
+            院区管理共<font class='pub_count'>{{ totalCount }}</font>条
+        </span>
+      </div>
+    </section>
     <!-- 表格 -->
     <section class="this_table">
-      <el-table :data="tableData" stripe border style="width: 100%">
+      <el-table v-scroll="findPage" :data="tableData" stripe border style="width: 100%">
         <el-table-column label="操作" width="150" align="center">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="编辑" :disabled="true" placement="top-start">
-              <el-button size="mini" :plain="true" type="success" icon="edit" @click="alert.formEditVisible = true;editInfo(scope.row)"></el-button>
+              <el-button size="mini" :plain="true" type="success" icon="edit" @click="editInfo(scope.row.hospitalID)"></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="删除" :disabled="true" placement="top-start">
-              <el-button size="mini" :plain="true" type="danger" icon="delete" @click="deleted(scope.row.areaID)"></el-button>
+              <el-button size="mini" :plain="true" type="danger" icon="delete" @click="deleted(scope.row.hospitalID)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="areaCode" label="地区代码" width="180" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="areaName" label="地区名称" width="180" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="parentCode" label="上级地区代码" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="parentName" label="上级地区名称" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="hospitalCode" label="院区编号" width="180" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="hospitalName" label="院区名称" width="180" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="hospitalGradeName" label="院区等级" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="areaName" label="地区" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="postCode" label="邮编" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="phone" label="联系方式" align="center" show-overflow-tooltip></el-table-column>
       </el-table>
     </section>
-    <!-- 新增 -->
+    <!-- 弹框 -->
     <section class="this_add">
-      <el-dialog title="新增" size="tiny" top="30%" :visible.sync="alert.formAddVisible" :before-close="addClose">
+      <el-dialog :title="title" size="small" top="30%" :visible.sync="alert.formAddVisible" :before-close="addClose">
         <el-form :model="formAdd" ref="formAdd" label-width="120px" class="demo-ruleForm">
           <el-row>
-            <el-col :span="22">
-              <el-form-item label="地区代码:" prop="code" required>
-                <el-input type="text" v-model="formAdd.code" auto-complete="off"></el-input>
+            <el-col :span="11">
+              <el-form-item label="院区编号:" prop="hospitalCode" required>
+                <el-input type="text" v-model="formAdd.hospitalCode"></el-input>
               </el-form-item>
-              </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="22">
-              <el-form-item label="地区名称:" prop="name" required>
-                <el-input type="text" v-model="formAdd.name" auto-complete="off"></el-input>
+            </el-col>
+            <el-col :span="11">
+              <el-form-item label="院区名称:" prop="hospitalName" required>
+                <el-input type="text" v-model="formAdd.hospitalName"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="22">
-              <el-form-item label="上级地区代码:" prop="pCode">
-                <el-input type="text" v-model="formAdd.pCode" auto-complete="off" disabled></el-input>
+            <el-col :span="11">
+              <el-form-item label="邮编:" prop="postCode">
+                <el-input type="text" v-model="formAdd.postCode"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="11">
+              <el-form-item label="联系电话:" prop="phone">
+                <el-input type="text" v-model="formAdd.phone"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="22">
-              <el-form-item label="上级地区名称:" prop="pName">
-                <el-input type="text" v-model="formAdd.pName" auto-complete="off" disabled></el-input>
-          </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-        <div slot="footer" class="dialog-footer" align="center">
-          <el-button type="primary" @click="alert.formAddVisible = false;addInfoSave();">保 存</el-button>
-          <el-button type="primary" @click="addInfoSave('1');">保存并新建</el-button>
-          <el-button @click="alert.formAddVisible = false;resetForm('formAdd');">取 消</el-button>
-        </div>
-      </el-dialog>
-    </section>
-    <!-- 编辑 -->
-    <section class="this_edit">
-      <el-dialog title="编辑" size="tiny" top="30%" :visible.sync="alert.formEditVisible">
-        <el-form :model="formEdit" ref="formEdit" label-width="120px" class="demo-ruleForm">
-          <el-row>
-            <el-col :span="22">
-              <el-form-item label="地区代码:" prop="code" required>
-                <el-input type="text" v-model="formEdit.code" auto-complete="off"></el-input>
+            <el-col :span="11">
+              <el-form-item label="院区等级:" prop="hospitalGradeID" required>
+                <el-select v-model="formAdd.hospitalGradeID">
+                  <el-option v-for="(item,index) in selectDate.hospitalGradeList" :label="item.dataDicValueName" :key="index" :value="item.dataDicValueCode"></el-option>
+                </el-select>
               </el-form-item>
-              </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="22">
-              <el-form-item label="地区名称:" prop="name" required>
-                <el-input type="text" v-model="formEdit.name" auto-complete="off"></el-input>
+            </el-col>
+            <el-col :span="11">
+              <el-form-item label="省份:" prop="provinceID" required>
+                <el-select v-model="formAdd.provinceID" @change="loadArea(formAdd.provinceID,'1')">
+                  <el-option v-for="(item,index) in selectDate.provinceList" :label="item.areaName" :key="index" :value="item.areaID"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="22">
-              <el-form-item label="上级地区代码:" prop="pCode">
-                <el-input type="text" v-model="formEdit.pCode" auto-complete="off" disabled></el-input>
+            <el-col :span="11">
+              <el-form-item label="城市:" prop="cityID">
+                <el-select v-model="formAdd.cityID" @change="loadArea(formAdd.cityID,'2')">
+                  <el-option v-for="(item,index) in selectDate.cityList" :label="item.areaName" :key="index" :value="item.areaID"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="11">
+              <el-form-item label="区县:" prop="countyID">
+                <el-select v-model="formAdd.countyID" @change="loadArea(formAdd.countyID,'3')">
+                  <el-option v-for="(item,index) in selectDate.countyList" :label="item.areaName" :key="index" :value="item.areaID"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="22">
-              <el-form-item label="上级地区名称:" prop="pName">
-                <el-input type="text" v-model="formEdit.pName" auto-complete="off" disabled></el-input>
-          </el-form-item>
+            <el-col :span="11">
+              <el-form-item label="街道:" prop="streetID">
+                <el-select v-model="formAdd.streetID">
+                  <el-option v-for="(item,index) in selectDate.streetList" :label="item.areaName" :key="index" :value="item.areaID"></el-option>
+                </el-select>
+              </el-form-item>
             </el-col>
           </el-row>
         </el-form>
         <div slot="footer" class="dialog-footer" align="center">
-          <el-button type="primary" @click="alert.formEditVisible = false;editInfoSave();resetForm('formEdit');">保 存</el-button>
-          <el-button @click="alert.formEditVisible = false;resetForm('formEdit');">取 消</el-button>
+            <el-button v-show="isAdd" type="primary" @click="addInfoSave">保 存</el-button>
+            <el-button v-show="isAdd" type="primary" @click="addInfoSave('1');">保存并新建</el-button>
+            <el-button v-show="!isAdd" type="primary" @click="editInfoSave(formAdd.hospitalID)">保 存</el-button>
+            <el-button @click="addClose">取 消</el-button>
         </div>
       </el-dialog>
     </section>
@@ -136,14 +147,16 @@ export default {
     return {
       pageStart: '0',
       totalCount: '0',
+      isAdd: true,
+      title: '新建',
       //nav value
       navForm: {
         treeValue: [],
-        user: ''
+        code: '',
+        name: ''
       },
       alert: {
-        formAddVisible: false,
-        formEditVisible: false
+        formAddVisible: false
       },
       //nav option
       treeProps: {
@@ -155,19 +168,23 @@ export default {
       //tableData
       tableData: [],
       formAdd: {
-        code: '',
-        name: '',
-        pCode: '',
-        pName: '',
-        pId: ''
+        hospitalCode: '',//院区编号
+        hospitalName: '',//院区名称
+        postCode: '',//邮编
+        phone: '',//联系电话
+        hospitalGradeID: '1',//院区等级
+        provinceID: '',//省份
+        cityID: '',//城市
+        countyID: '',//区县
+        streetID: '',//街道
+        hospitalID: ''//院区id
       },
-      formEdit: {
-        id: '',
-        code: '',
-        name: '',
-        pCode: '',
-        pName: '',
-        pId: ''
+      selectDate: {
+        hospitalGradeList: [],
+        provinceList: [],
+        cityList: [],
+        countyList: [],
+        streetList: []
       }
     }
   },
@@ -175,56 +192,126 @@ export default {
   },
   created() {
     this.findTree();
-    this.findPage();
+    this.findPage(true);
   },
   methods: {
     //加载树形
     findTree() {
-      this.$http.get(this.$location.sysAreaManagerfindTree).then(data => {
-        let res = data.data.returnContent;
-        this.treeOptions = res || [];
+      this.$http.get(this.$location.sysHospitalManagerfindTree).then(data => {
+        let returnCode = data.returnCode;
+        let res = data.returnContent;
+        if(returnCode == '1'){
+          this.treeOptions = res || [];
+        }else if(returnCode == '0'){
+          this.$message({
+            type: 'error',
+            message: res,
+            duration: 1000
+          });
+        }
       }).catch(error => {
         console.log(error);
       });
     },
     //加载列表
-    findPage() {
-      this.$http.get(this.$location.sysAreaManagerfindPage,{
-        params:{
-          parentAreaID: this.navForm.treeValue[this.navForm.treeValue.length-1],
+    findPage(can) {
+      can?this.pageStart=0:this.pageStart++;
+      let treeValueLen = this.navForm.treeValue.length;
+      let param = {
+        provinceID: '',
+        cityID: '',
+        countyID: '',
+        streetID: '',
+        pageStart: this.pageStart,
+        hospitalCode: this.navForm.code,
+        hospitalName: this.navForm.name
+      }
+      if(treeValueLen == 2){
+        param = {
+          provinceID: this.navForm.treeValue[this.navForm.treeValue.length-1],
+          cityID: '',
+          countyID: '',
+          streetID: '',
           pageStart: this.pageStart,
-          areaName: this.navForm.user
+          hospitalCode: this.navForm.code,
+          hospitalName: this.navForm.name
         }
+      }else if(treeValueLen == 3){
+        param = {
+          provinceID: '',
+          cityID: this.navForm.treeValue[this.navForm.treeValue.length-1],
+          countyID: '',
+          streetID: '',
+          pageStart: this.pageStart,
+          hospitalCode: this.navForm.code,
+          hospitalName: this.navForm.name
+        }
+      }else if(treeValueLen == 4){
+        param = {
+          provinceID: '',
+          cityID: '',
+          countyID: this.navForm.treeValue[this.navForm.treeValue.length-1],
+          streetID: '',
+          pageStart: this.pageStart,
+          hospitalCode: this.navForm.code,
+          hospitalName: this.navForm.name
+        }
+      }else if(treeValueLen == 5){
+        param = {
+          provinceID: '',
+          cityID: '',
+          countyID: '',
+          streetID: this.navForm.treeValue[this.navForm.treeValue.length-1],
+          pageStart: this.pageStart,
+          hospitalCode: this.navForm.code,
+          hospitalName: this.navForm.name
+        }
+      }
+      this.$http.get(this.$location.sysHospitalManagerfindPage,{
+        params: param
       }).then(data => {
-        let res = data.data.returnContent;
-        this.totalCount = res.totalCount;
-        let sysAreaList = res.sysAreaList;
-        this.tableData = sysAreaList || [];
+        let returnCode = data.returnCode;
+        let res = data.returnContent;
+        if(returnCode == '1'){
+          this.totalCount = res.totalCount;
+          let sysHospitalList = res.sysHospitalList;
+          if (can) {
+           this.tableData = sysHospitalList || [];
+          }else{
+            this.tableData.push(...sysHospitalList);
+          }
+        }else if(returnCode == '0'){
+          this.$message({
+            type: 'error',
+            message: res,
+            duration: 1000
+          });
+        }
       }).catch(error => {
         console.log(error);
       });
     },
     //删除
-    deleted(areaID) {
+    deleted(hospitalID) {
       this.$confirm('是否确认删除该条信息?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
       }).then(() => {
-        this.$http.get(this.$location.sysAreaManagerdelete, {
+        this.$http.get(this.$location.sysHospitalManagerdelete, {
             params: {
-                areaID: areaID
+                hospitalID: hospitalID
             }
         }).then(data => {
-          let message = data.data.returnContent;
-          let returnCode = data.data.returnCode;
+          let returnCode = data.returnCode;
+          let message = data.returnContent;
           if(returnCode == '1'){
             this.$message({
                 type: 'success',
                 message: message,
                 duration: 1000
             });
-            this.findPage();
+            this.findPage(true);
             this.findTree();
           }else if(returnCode == '0'){
             this.$message({
@@ -251,7 +338,6 @@ export default {
         dataList.forEach((k, i) => {
           if(k.areaID == thisId){
             console.log('success');
-            console.log(k.areaCode+','+k.areaName);
             this.formAdd.pName = k.areaName;
             this.formAdd.pCode = k.areaCode;
             return false;
@@ -269,25 +355,43 @@ export default {
     },
     //新建
     addInfo() {
-      let pId = this.navForm.treeValue[this.navForm.treeValue.length-1];
-      this.formAdd.pId = pId;
-      this.treeArea(this.treeOptions,pId);
-    },
-    addClose() {
-      this.alert.formAddVisible = false;
-      this.resetForm('formAdd');
+      this.$http.get(this.$location.sysHospitalManagerinsertReady).then(data => {
+        let returnCode = data.returnCode;
+        let res = data.returnContent;
+        if(returnCode == '1'){
+          let hospitalGradeList = res.hospitalGradeList;
+          let sysAreaList = res.sysAreaList;
+          this.selectDate.hospitalGradeList = hospitalGradeList || [];
+          this.selectDate.provinceList = sysAreaList || [];
+        }else if(returnCode == '0'){
+          this.$message({
+            type: 'error',
+            message: res,
+            duration: 1000
+          });
+        }
+      });
+      this.isAdd = true;
+      this.title = '新建';
+      this.alert.formAddVisible = true;
     },
     //新建保存 type=1时为保存并新建
     addInfoSave(type) {
-      this.$http.get(this.$location.sysAreaManagerinsert,{
+      this.$http.get(this.$location.sysHospitalManagerinsert,{
         params: {
-          areaCode: this.formAdd.code,
-          areaName: this.formAdd.name,
-          parentAreaID: this.formAdd.pId
+          hospitalCode: this.formAdd.hospitalCode,
+          hospitalName: this.formAdd.hospitalName,
+          postCode: this.formAdd.postCode,
+          phone: this.formAdd.phone,
+          hospitalGradeID: this.formAdd.hospitalGradeID,
+          provinceID: this.formAdd.provinceID,
+          cityID: this.formAdd.cityID,
+          countyID: this.formAdd.countyID,
+          streetID: this.formAdd.streetID
         }
       }).then(data => {
-        let returnCode = data.data.returnCode;
-        let message = data.data.returnContent;
+        let returnCode = data.returnCode;
+        let message = data.returnContent;
         if(returnCode == '1'){
           this.$message({
               type: 'success',
@@ -295,13 +399,20 @@ export default {
               duration: 1000
           });
           if(type == '1'){
-            this.formAdd.code = '';
-            this.formAdd.name = '';
+            this.formAdd.hospitalCode = '';
+            this.formAdd.hospitalName = '';
+            this.formAdd.postCode = '';
+            this.formAdd.phone = '';
+            this.formAdd.hospitalGradeID = '';
+            this.formAdd.provinceID = '';
+            this.formAdd.cityID = '';
+            this.formAdd.countyID = '';
+            this.formAdd.streetID = '';
           }else{
             this.resetForm('formAdd');
+            this.alert.formAddVisible = false;
           }
-          this.findPage();
-          this.findTree();
+          this.findPage(true);
         }else if(returnCode == '0'){
           this.$message({
               type: 'error',
@@ -312,34 +423,76 @@ export default {
       });
     },
     //编辑
-    editInfo(dataList) {
-      this.formEdit.id = dataList.areaID;
-      this.formEdit.code = dataList.areaCode;
-      this.formEdit.name = dataList.areaName;
-      this.formEdit.pCode = dataList.parentCode;
-      this.formEdit.pName = dataList.parentName;
-      this.formEdit.pId = dataList.parentAreaID;
-    },
-    //编辑保存
-    editInfoSave() {
-      this.$http.get(this.$location.sysAreaManagerupdate,{
+    editInfo(hospitalID) {
+      this.$http.get(this.$location.sysHospitalManagerupdateQuery,{
         params: {
-          areaID: this.formEdit.id,
-          areaCode: this.formEdit.code,
-          areaName: this.formEdit.name,
-          parentAreaID: this.formEdit.pId
+          hospitalID: hospitalID
         }
       }).then(data => {
-        let returnCode = data.data.returnCode;
-        let message = data.data.returnContent;
+        let returnCode = data.returnCode;
+        let res = data.returnContent;
+        let hospitalGradeList = res.hospitalGradeList;
+        let sysAreaList = res.sysAreaList;
+        let sysHospitalManager = res.sysHospitalManager;
+        if(returnCode == '1'){
+          this.selectDate.hospitalGradeList = hospitalGradeList || [];
+          this.selectDate.provinceList = sysAreaList || [];
+
+          this.formAdd.hospitalCode = sysHospitalManager.hospitalCode;
+          this.formAdd.hospitalName = sysHospitalManager.hospitalName;
+          this.formAdd.postCode = sysHospitalManager.postCode;
+          this.formAdd.phone = sysHospitalManager.phone;
+          this.formAdd.hospitalGradeID = sysHospitalManager.hospitalGradeID.toString();
+          this.formAdd.provinceID = sysHospitalManager.provinceID;
+          this.formAdd.cityID = sysHospitalManager.cityID;
+          this.formAdd.countyID = sysHospitalManager.countyID;
+          if(sysHospitalManager.streetID == '0'){
+            sysHospitalManager.streetID = '';
+          }
+          this.formAdd.streetID = sysHospitalManager.streetID;
+          this.formAdd.hospitalID = hospitalID;
+          this.loadArea(this.formAdd.provinceID,'1');
+          this.loadArea(this.formAdd.cityID,'2');
+          this.loadArea(this.formAdd.countyID,'3');
+        }else if(returnCode == '0'){
+          this.$message({
+            type: 'error',
+            message: res,
+            duration: 1000
+          });
+        }
+      });
+      this.isAdd = false;
+      this.title = '编辑';
+      this.alert.formAddVisible = true;
+    },
+    //编辑保存
+    editInfoSave(hospitalID) {
+      this.$http.get(this.$location.sysHospitalManagerupdate,{
+        params: {
+          hospitalID: hospitalID,
+          hospitalCode: this.formAdd.hospitalCode,
+          hospitalName: this.formAdd.hospitalName,
+          postCode: this.formAdd.postCode,
+          phone: this.formAdd.phone,
+          hospitalGradeID: this.formAdd.hospitalGradeID,
+          provinceID: this.formAdd.provinceID,
+          cityID: this.formAdd.cityID,
+          countyID: this.formAdd.countyID,
+          streetID: this.formAdd.streetID
+        }
+      }).then(data => {
+        let returnCode = data.returnCode;
+        let message = data.returnContent;
         if(returnCode == '1'){
           this.$message({
               type: 'success',
               message: message,
               duration: 1000
           });
-          this.findPage();
-          this.findTree();
+          this.resetForm('formAdd');
+          this.alert.formAddVisible = false;
+          this.findPage(true);
         }else if(returnCode == '0'){
           this.$message({
               type: 'error',
@@ -348,6 +501,32 @@ export default {
           });
         }
       });
+      this.formAdd.hospitalID = '';
+    },
+    //联动加载
+    loadArea(now,type) {
+      if(!now){
+        return false;
+      }
+      this.$http.get(this.$location.sysAreaManagerloadArea,{
+        params: {
+          areaID: now
+        }
+      }).then(data => {
+        let res = data.returnContent;
+          if(type == 1){
+            this.selectDate.cityList = res;
+          }else if(type == 2){
+            this.selectDate.countyList = res;
+          }else if(type == 3){
+            this.selectDate.streetList = res;
+          }
+      });
+    },
+    addClose() {
+      this.alert.formAddVisible = false;
+      this.resetForm('formAdd');
+      this.formAdd.hospitalID = '';
     }
   }
 }
@@ -358,41 +537,24 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
   overflow: auto;
-  .this_breadcrumb{
-    width: 100%;
-    margin: 10px 0;
-  }
-  .this_nav{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin: 10px 0;
-    padding: 1em;
-    background-color: #f2f2f2;
-  }
-  .this_total{
-    width: 100%;
-    margin: 10px 0;
-    text-align: right;
-    .em{
-      padding: 0 5px;
-      color: #4bc889;
-    }
-  }
   .this_table{
     display: flex;
     flex-grow: 1;
-    width: 100%;
-    .this_enable{
-      color: green;
-      cursor: pointer;
+    flex-direction: column;
+    padding-bottom: 20px;
+    .el-table{
+      flex-grow: 1;
     }
   }
   .this_table{
     .el-button--danger.is-plain{
       margin-left: 0;
+    }
+  }
+  .this_add{
+    .el-select{
+      width: 100%;
     }
   }
 }

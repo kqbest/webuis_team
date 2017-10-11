@@ -12,12 +12,38 @@ let store=new Vuex.Store({
     	macAddress:'',//mac地址
     	validateIP:'',//授权地址
     	validatePort:'',//授权端口
+    	hospitalID:'',//用户登录的院区id
+    	departmentID:'',//用户登录时候选取的科室id
+    	userMsg:{},//用户信息
     },
     mutations:{
-
+    	//设置登录院区id
+    	setHospitalID(state,value){
+    		state.hospitalID=value;
+    	},
+    	//设置登录科室id
+    	setDepartmentID(state,value){
+    		state.departmentID=value
+    	},
+    	//设置用户信息
+    	setUserMsg(state,value){
+    		state.userMsg=value;
+    	}
     },
     actions:{
-
+    	//设置登录院区id
+    	setHospitalID({commit},value){
+    		commit('setHospitalID',value);
+    	},
+    	//设置登录科室id
+    	setDepartmentID({commit},value){
+    		commit('setDepartmentID',value);
+    	},
+    	//设置用户信息
+    	setUserMsg({commit},value){
+    		value=JSON.parse(JSON.stringify(value));
+    		commit('setUserMsg',value);
+    	}
     }
 });
 

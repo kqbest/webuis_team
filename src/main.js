@@ -8,8 +8,10 @@ import store from './vuex/store.js';
 import ElementUI from 'element-ui';
 import location from './location/location.js';
 import './directive/mixin.js';
+import './directive/directive'
 import 'element-ui/lib/theme-default/index.css';
 import './assets/css/reset.css';
+import './assets/css/globel.css';
 import './request';
 // import './assets/css/element.less';
 

@@ -1,34 +1,39 @@
 <template>
   <section class="pluginManagement">
-    <!-- 头部 -->
-    <header>
-      <div class="this_breadcrumb">
+    <nav class="pub_select">
+      <el-form ref="navForm" :model="navForm" label-width="86px">
+        <el-row>
+          <el-col>
+            <el-form-item label="地区目录:" prop="treeValue">
+              <el-cascader :props="treeProps" :options="treeOptions" v-model="navForm.treeValue" change-on-select></el-cascader>
+            </el-form-item>
+          </el-col>
+          <el-col>
+            <el-form-item label="地区名称:" prop="name">
+              <el-input v-model="navForm.name" placeholder="请输入地区名称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-button class="mlem" type="primary" @click="findPage(true)">查询</el-button>
+          <el-button class="mlem" @click="resetForm('navForm')">重置</el-button>
+        </el-row>
+      </el-form>
+    </nav>
+    <section class="pub_hr">
+      <div>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>其他设置</el-breadcrumb-item>
+          <el-breadcrumb-item>系统管理</el-breadcrumb-item>
+          <el-breadcrumb-item>系统设置</el-breadcrumb-item>
           <el-breadcrumb-item>地区管理</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
-      <nav class="this_nav">
-        <el-form :inline="true" :model="navForm" ref="navForm" class="demo-form-inline">
-          <el-form-item label="地区目录:" prop="treeValue">
-            <el-cascader :props="treeProps" :options="treeOptions" v-model="navForm.treeValue" change-on-select></el-cascader>
-          </el-form-item>
-          <el-form-item label="地区名称:" prop="user">
-            <el-input v-model="navForm.user" placeholder="地区名称"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="findPage()">查询</el-button>
-            <el-button @click="resetForm('navForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </nav>
-      <h2 class="this_total">
-        <el-button type="primary" class="mr10" @click="alert.formAddVisible = true;addInfo()">新建</el-button>
-        <el-button class="mr10" @click="findPage()">刷新</el-button>
-        共<em class="em">{{ totalCount }}</em>条记录
-      </h2>
-    </header>
+      <div>
+        <el-button class="mlem" type="primary" @click="addInfo()">新建</el-button>
+        <el-button class="mlem" @click="findPage">刷新</el-button>
+        <span class="mlem">
+            地区管理共<font class='pub_count'>{{ totalCount }}</font>条
+        </span>
+      </div>
+    </section>
     <!-- 表格 -->
     <section class="this_table">
       <el-table :data="tableData" stripe border style="width: 100%">
@@ -57,7 +62,7 @@
               <el-form-item label="地区代码:" prop="code" required>
                 <el-input type="text" v-model="formAdd.code" auto-complete="off"></el-input>
               </el-form-item>
-              </el-col>
+            </el-col>
           </el-row>
           <el-row>
             <el-col :span="22">
@@ -77,7 +82,7 @@
             <el-col :span="22">
               <el-form-item label="上级地区名称:" prop="pName">
                 <el-input type="text" v-model="formAdd.pName" auto-complete="off" disabled></el-input>
-          </el-form-item>
+              </el-form-item>
             </el-col>
           </el-row>
         </el-form>
@@ -139,7 +144,7 @@ export default {
       //nav value
       navForm: {
         treeValue: [],
-        user: ''
+        name: ''
       },
       alert: {
         formAddVisible: false,
@@ -175,20 +180,30 @@ export default {
   },
   created() {
     this.findTree();
-    this.findPage();
+    this.findPage(true);
   },
   methods: {
     //加载树形
     findTree() {
       this.$http.get(this.$location.sysAreaManagerfindTree).then(data => {
-        let res = data.data.returnContent;
-        this.treeOptions = res || [];
+        let returnCode = data.returnCode;
+        let res = data.returnContent;
+        if(returnCode == '1'){
+          this.treeOptions = res || [];
+        }else if(returnCode == '0'){
+          this.$message({
+            type: 'error',
+            message: res,
+            duration: 1000
+          });
+        }
       }).catch(error => {
         console.log(error);
       });
     },
     //加载列表
-    findPage() {
+    findPage(can) {
+      can?this.pageStart=0:this.pageStart++;
       this.$http.get(this.$location.sysAreaManagerfindPage,{
         params:{
           parentAreaID: this.navForm.treeValue[this.navForm.treeValue.length-1],
@@ -196,10 +211,23 @@ export default {
           areaName: this.navForm.user
         }
       }).then(data => {
-        let res = data.data.returnContent;
-        this.totalCount = res.totalCount;
-        let sysAreaList = res.sysAreaList;
-        this.tableData = sysAreaList || [];
+        let returnCode = data.returnCode;
+        let res = data.returnContent;
+        if(returnCode == '1'){
+          this.totalCount = res.totalCount;
+          let sysAreaList = res.sysAreaList;
+          if(can){
+            this.tableData = sysAreaList || [];
+          }else{
+            this.tableData.push(...sysAreaList);
+          }
+        }else if(returnCode == '0'){
+          this.$message({
+            type: 'error',
+            message: res,
+            duration: 1000
+          });    
+        }
       }).catch(error => {
         console.log(error);
       });
@@ -216,15 +244,15 @@ export default {
                 areaID: areaID
             }
         }).then(data => {
-          let message = data.data.returnContent;
-          let returnCode = data.data.returnCode;
+          let returnCode = data.returnCode;
+          let message = data.returnContent;
           if(returnCode == '1'){
             this.$message({
                 type: 'success',
                 message: message,
                 duration: 1000
             });
-            this.findPage();
+            this.findPage(true);
             this.findTree();
           }else if(returnCode == '0'){
             this.$message({
@@ -251,7 +279,6 @@ export default {
         dataList.forEach((k, i) => {
           if(k.areaID == thisId){
             console.log('success');
-            console.log(k.areaCode+','+k.areaName);
             this.formAdd.pName = k.areaName;
             this.formAdd.pCode = k.areaCode;
             return false;
@@ -269,6 +296,7 @@ export default {
     },
     //新建
     addInfo() {
+      this.alert.formAddVisible = true;
       let pId = this.navForm.treeValue[this.navForm.treeValue.length-1];
       this.formAdd.pId = pId;
       this.treeArea(this.treeOptions,pId);
@@ -286,8 +314,8 @@ export default {
           parentAreaID: this.formAdd.pId
         }
       }).then(data => {
-        let returnCode = data.data.returnCode;
-        let message = data.data.returnContent;
+        let returnCode = data.returnCode;
+        let message = data.returnContent;
         if(returnCode == '1'){
           this.$message({
               type: 'success',
@@ -330,8 +358,8 @@ export default {
           parentAreaID: this.formEdit.pId
         }
       }).then(data => {
-        let returnCode = data.data.returnCode;
-        let message = data.data.returnContent;
+        let returnCode = data.returnCode;
+        let message = data.returnContent;
         if(returnCode == '1'){
           this.$message({
               type: 'success',
@@ -358,36 +386,14 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
   overflow: auto;
-  .this_breadcrumb{
-    width: 100%;
-    margin: 10px 0;
-  }
-  .this_nav{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin: 10px 0;
-    padding: 1em;
-    background-color: #f2f2f2;
-  }
-  .this_total{
-    width: 100%;
-    margin: 10px 0;
-    text-align: right;
-    .em{
-      padding: 0 5px;
-      color: #4bc889;
-    }
-  }
   .this_table{
     display: flex;
     flex-grow: 1;
-    width: 100%;
-    .this_enable{
-      color: green;
-      cursor: pointer;
+    flex-direction: column;
+    padding-bottom: 20px;
+    .el-table{
+      flex-grow: 1;
     }
   }
   .this_table{

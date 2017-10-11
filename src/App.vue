@@ -26,35 +26,35 @@
               <i class="el-icon-menu"></i>
               <span slot="title">院区管理</span>
             </el-menu-item>
-            <el-menu-item index="1-4">
+            <el-menu-item index="/managementDepartment">
               <i class="el-icon-menu"></i>
               <span slot="title">科室管理</span>
             </el-menu-item>
-            <el-menu-item index="1-5">
+            <el-menu-item index="/roleManagement">
               <i class="el-icon-menu"></i>
               <span slot="title">角色管理</span>
             </el-menu-item>
-            <el-menu-item index="1-6">
+            <el-menu-item index="/user">
               <i class="el-icon-menu"></i>
               <span slot="title">用户管理</span>
             </el-menu-item>
-            <el-menu-item index="1-7">
+            <el-menu-item index="/informationSystem">
               <i class="el-icon-menu"></i>
               <span slot="title">系统字典</span>
             </el-menu-item>
-            <el-menu-item index="1-8">
+            <el-menu-item index="/informationDepartment">
               <i class="el-icon-menu"></i>
               <span slot="title">科室字典</span>
             </el-menu-item>
-            <el-menu-item index="1-9">
+            <el-menu-item index="/systemParameters">
               <i class="el-icon-menu"></i>
               <span slot="title">系统参数</span>
             </el-menu-item>
-            <el-menu-item index="1-10">
+            <el-menu-item index="/departmentParams">
               <i class="el-icon-menu"></i>
               <span slot="title">科室参数</span>
             </el-menu-item>
-            <el-menu-item index="1-11">
+            <el-menu-item index="/logs">
               <i class="el-icon-menu"></i>
               <span slot="title">日志管理</span>
             </el-menu-item>
@@ -145,6 +145,7 @@
 </template>
 <script>
 import { localTitle } from './location/title';
+import { mapActions } from "vuex";
 export default {
   name: 'app',
   data() {
@@ -160,21 +161,21 @@ export default {
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     //获取地址和端口
     getLoadIp() {
       this.$http.get(this.$location.sysUserInfovalidate, {}).then(data => {
-        if (data.data.returnCode == 1) {
-          let validateIP = _.get(data, 'data.returnContent.validateIP');
-          let validatePort = _.get(data, 'data.returnContent.validatePort');
+        if (data.returnCode == 1) {
+          let validateIP = _.get(data, 'returnContent.validateIP');
+          let validatePort = _.get(data, 'returnContent.validatePort');
           this.authorization(validateIP, validatePort);
         }
       })
     },
     //授权验证(地址,端口)
     authorization(validateIP, validatePort) {
-      console.log(validateIP, validatePort)
+      // console.log(validateIP, validatePort)
       this.$jsonp(localTitle, {
         requestType: 9,
         VRSVRIP: validateIP,
@@ -195,7 +196,11 @@ export default {
           password: 'admin'
         }
       }).then(data => {
+        data = data.returnContent;
         // console.log(data)
+        this.$store.dispatch("setHospitalID", '1');
+        this.$store.dispatch("setDepartmentID", '1');
+        this.$store.dispatch("setUserMsg", data.sessionUser);
       })
     }
   }
@@ -205,12 +210,6 @@ export default {
 </script>
 <style lang="less" scoped>
 #app {
-  /* font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;*/
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -252,3 +251,4 @@ export default {
 }
 
 </style>
+
