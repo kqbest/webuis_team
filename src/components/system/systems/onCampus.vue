@@ -84,19 +84,10 @@ export default {
     //加载树形
     findTree() {
       this.$http.get(this.$location.sysMenuManagerfindTree).then(data => {
-        let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.treeOptions = res || [];
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
         }
-      }).catch(error => {
-        console.log(error);
       });
     },
     //加载列表
@@ -109,9 +100,8 @@ export default {
           menuName: this.navForm.name
         }
       }).then(data => {
-        let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.totalCount = res.totalCount;
           let sysMenuList = res.sysMenuList;
           if(can){
@@ -119,15 +109,7 @@ export default {
           }else{
             this.tableData.push(...sysMenuList);
           }
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
         }
-      }).catch(error => {
-        console.log(error);
       });
     },
     //启用状态
@@ -141,34 +123,25 @@ export default {
         stateName = '停用';
       }
       this.$confirm(`是否确认${stateName}?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
         this.$http.get(this.$location.sysMenuManagerupdateState, {
-            params: {
-                menuID: menuID,
-                state: state
-            }
+          params: {
+            menuID: menuID,
+            state: state
+          }
         }).then(data => {
-          let returnCode = data.returnCode;
           let message = data.returnContent;
-          if(returnCode == '1'){
+          if(data.returnCode == '1'){
             this.$message({
-                type: 'success',
-                message: message,
-                duration: 1000
+              type: 'success',
+              message: message,
+              duration: 1000
             });
             this.findPage();
-          }else if(returnCode == '0'){
-            this.$message({
-                type: 'error',
-                message: message,
-                duration: 1000
-            });
           }
-        }).catch(error => {
-          console.log(error);
         });
       }).catch(() => {});
     },

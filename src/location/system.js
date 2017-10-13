@@ -51,6 +51,17 @@ var ckq={
 	sysRoleManagerupdate: title + 'systemmanagement/systemsetting/sysRoleManager/update',//角色管理-编辑保存
 	sysRoleManagerupdateState: title + 'systemmanagement/systemsetting/sysRoleManager/updateState',//角色管理-启用状态
 	sysRoleManagerdelete: title + 'systemmanagement/systemsetting/sysRoleManager/delete',//角色管理-删除
+
+
+	sysUserInfofindTree: title + 'systemmanagement/systemsetting/sysUserInfo/findTree',//角色管理-左侧树形
+	sysUserInfofindPage: title + 'systemmanagement/systemsetting/sysUserInfo/findPage',//角色管理-列表
+	sysUserInfoinsertReady: title + 'systemmanagement/systemsetting/sysUserInfo/insertReady',//角色管理-新建初始化
+	sysUserInfoinsert: title + 'systemmanagement/systemsetting/sysUserInfo/insert',//角色管理-新建保存
+	sysUserInfoupdateQuery: title + 'systemmanagement/systemsetting/sysUserInfo/updateQuery',//角色管理-编辑初始化
+	sysUserInfoupdate: title + 'systemmanagement/systemsetting/sysUserInfo/update',//角色管理-编辑保存
+	sysUserInfoupdateState: title + 'systemmanagement/systemsetting/sysUserInfo/updateState',//角色管理-启用状态
+	sysUserInfodelete: title + 'systemmanagement/systemsetting/sysUserInfo/delete',//角色管理-删除
+	sysUserInforesetPassword: title + 'systemmanagement/systemsetting/sysUserInfo/resetPassword'//角色管理-重置密码
 }
 
 

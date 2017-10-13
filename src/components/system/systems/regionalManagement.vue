@@ -198,19 +198,10 @@ export default {
     //加载树形
     findTree() {
       this.$http.get(this.$location.sysHospitalManagerfindTree).then(data => {
-        let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.treeOptions = res || [];
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
         }
-      }).catch(error => {
-        console.log(error);
       });
     },
     //加载列表
@@ -270,9 +261,8 @@ export default {
       this.$http.get(this.$location.sysHospitalManagerfindPage,{
         params: param
       }).then(data => {
-        let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.totalCount = res.totalCount;
           let sysHospitalList = res.sysHospitalList;
           if (can) {
@@ -280,32 +270,23 @@ export default {
           }else{
             this.tableData.push(...sysHospitalList);
           }
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
         }
-      }).catch(error => {
-        console.log(error);
       });
     },
     //删除
     deleted(hospitalID) {
       this.$confirm('是否确认删除该条信息?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
         this.$http.get(this.$location.sysHospitalManagerdelete, {
-            params: {
-                hospitalID: hospitalID
-            }
+          params: {
+            hospitalID: hospitalID
+          }
         }).then(data => {
-          let returnCode = data.returnCode;
           let message = data.returnContent;
-          if(returnCode == '1'){
+          if(data.returnCode == '1'){
             this.$message({
                 type: 'success',
                 message: message,
@@ -313,15 +294,7 @@ export default {
             });
             this.findPage(true);
             this.findTree();
-          }else if(returnCode == '0'){
-            this.$message({
-                type: 'error',
-                message: message,
-                duration: 1000
-            });
           }
-        }).catch(error => {
-          console.log(error);
         });
       }).catch(() => {});
     },
@@ -356,19 +329,12 @@ export default {
     //新建
     addInfo() {
       this.$http.get(this.$location.sysHospitalManagerinsertReady).then(data => {
-        let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           let hospitalGradeList = res.hospitalGradeList;
           let sysAreaList = res.sysAreaList;
           this.selectDate.hospitalGradeList = hospitalGradeList || [];
           this.selectDate.provinceList = sysAreaList || [];
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
         }
       });
       this.isAdd = true;
@@ -390,9 +356,8 @@ export default {
           streetID: this.formAdd.streetID
         }
       }).then(data => {
-        let returnCode = data.returnCode;
         let message = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.$message({
               type: 'success',
               message: message,
@@ -413,12 +378,6 @@ export default {
             this.alert.formAddVisible = false;
           }
           this.findPage(true);
-        }else if(returnCode == '0'){
-          this.$message({
-              type: 'error',
-              message: message,
-              duration: 1000
-          });
         }
       });
     },
@@ -429,12 +388,11 @@ export default {
           hospitalID: hospitalID
         }
       }).then(data => {
-        let returnCode = data.returnCode;
         let res = data.returnContent;
         let hospitalGradeList = res.hospitalGradeList;
         let sysAreaList = res.sysAreaList;
         let sysHospitalManager = res.sysHospitalManager;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.selectDate.hospitalGradeList = hospitalGradeList || [];
           this.selectDate.provinceList = sysAreaList || [];
 
@@ -454,12 +412,6 @@ export default {
           this.loadArea(this.formAdd.provinceID,'1');
           this.loadArea(this.formAdd.cityID,'2');
           this.loadArea(this.formAdd.countyID,'3');
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
         }
       });
       this.isAdd = false;
@@ -482,23 +434,16 @@ export default {
           streetID: this.formAdd.streetID
         }
       }).then(data => {
-        let returnCode = data.returnCode;
         let message = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
+            type: 'success',
+            message: message,
+            duration: 1000
           });
           this.resetForm('formAdd');
           this.alert.formAddVisible = false;
           this.findPage(true);
-        }else if(returnCode == '0'){
-          this.$message({
-              type: 'error',
-              message: message,
-              duration: 1000
-          });
         }
       });
       this.formAdd.hospitalID = '';

@@ -186,19 +186,10 @@ export default {
     //加载树形
     findTree() {
       this.$http.get(this.$location.sysAreaManagerfindTree).then(data => {
-        let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.treeOptions = res || [];
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
         }
-      }).catch(error => {
-        console.log(error);
       });
     },
     //加载列表
@@ -211,9 +202,8 @@ export default {
           areaName: this.navForm.user
         }
       }).then(data => {
-        let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.totalCount = res.totalCount;
           let sysAreaList = res.sysAreaList;
           if(can){
@@ -221,12 +211,6 @@ export default {
           }else{
             this.tableData.push(...sysAreaList);
           }
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });    
         }
       }).catch(error => {
         console.log(error);
@@ -235,34 +219,25 @@ export default {
     //删除
     deleted(areaID) {
       this.$confirm('是否确认删除该条信息?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
         this.$http.get(this.$location.sysAreaManagerdelete, {
-            params: {
-                areaID: areaID
-            }
+          params: {
+            areaID: areaID
+          }
         }).then(data => {
-          let returnCode = data.returnCode;
           let message = data.returnContent;
-          if(returnCode == '1'){
+          if(data.returnCode == '1'){
             this.$message({
-                type: 'success',
-                message: message,
-                duration: 1000
+              type: 'success',
+              message: message,
+              duration: 1000
             });
             this.findPage(true);
             this.findTree();
-          }else if(returnCode == '0'){
-            this.$message({
-                type: 'error',
-                message: message,
-                duration: 1000
-            });
           }
-        }).catch(error => {
-          console.log(error);
         });
       }).catch(() => {});
     },
@@ -314,9 +289,8 @@ export default {
           parentAreaID: this.formAdd.pId
         }
       }).then(data => {
-        let returnCode = data.returnCode;
         let message = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.$message({
               type: 'success',
               message: message,
@@ -330,12 +304,6 @@ export default {
           }
           this.findPage();
           this.findTree();
-        }else if(returnCode == '0'){
-          this.$message({
-              type: 'error',
-              message: message,
-              duration: 1000
-          });
         }
       });
     },
@@ -358,9 +326,8 @@ export default {
           parentAreaID: this.formEdit.pId
         }
       }).then(data => {
-        let returnCode = data.returnCode;
         let message = data.returnContent;
-        if(returnCode == '1'){
+        if(data.returnCode == '1'){
           this.$message({
               type: 'success',
               message: message,
@@ -368,12 +335,6 @@ export default {
           });
           this.findPage();
           this.findTree();
-        }else if(returnCode == '0'){
-          this.$message({
-              type: 'error',
-              message: message,
-              duration: 1000
-          });
         }
       });
     }
