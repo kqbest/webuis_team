@@ -551,7 +551,7 @@ export default {
   }
 }
 </script>
-<style lang='less' scoped>
+<style lang='less'>
 .roleManagement {
   width: 100%;
   display: flex;
@@ -564,6 +564,12 @@ export default {
     border: 1px solid green;
     .el-table {
       flex-grow: 1;
+      .el-table__header{
+        width: 100%!important;
+      }
+      .el-table__empty-block{
+        width: 100%!important;
+      }
       .el-button{
         margin-left: 0;
       }

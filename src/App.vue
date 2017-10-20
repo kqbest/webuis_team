@@ -241,6 +241,7 @@ export default {
       height: 100%;
       padding: 15px 20px 0 20px;
       flex-grow: 1;
+      overflow-x: hidden;
       .view {
         height: 100%;
         border: 1px solid red;

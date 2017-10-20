@@ -153,7 +153,7 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang='less'>
 .onCampus{
   display: flex;
   flex-direction: column;
@@ -166,6 +166,12 @@ export default {
     padding-bottom: 20px;
     .el-table{
       flex-grow: 1;
+      .el-table__header{
+        width: 100%!important;
+      }
+      .el-table__empty-block{
+        width: 100%!important;
+      }
     }
     .this_enable{
       color: green;

@@ -41,7 +41,7 @@
     </section>
     <!-- 表格 -->
     <section class="this_table">
-      <el-table v-scroll="findPage" :data="tableData" stripe border style="width: 100%">
+      <el-table v-scroll="findPage" :data="tableData" stripe border height="100">
         <el-table-column label="操作" width="150" align="center">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="编辑" :disabled="true" placement="top-start">
@@ -477,7 +477,7 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang='less'>
 .regionalManagement{
   display: flex;
   flex-direction: column;
@@ -490,6 +490,12 @@ export default {
     padding-bottom: 20px;
     .el-table{
       flex-grow: 1;
+      .el-table__header{
+        width: 100%!important;
+      }
+      .el-table__empty-block{
+        width: 100%!important;
+      }
     }
   }
   .this_table{
