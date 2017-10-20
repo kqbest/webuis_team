@@ -69,7 +69,7 @@
     </section>
     <!-- 表格 -->
     <section class="this_table">
-      <el-table v-scroll="queryData" :data="array.tableData" stripe border height="100" @cell-mouse-enter="cellHover">
+      <el-table v-scroll="queryData" :data="array.tableData" stripe border height="100">
         <el-table-column label="操作" width="150" align="center">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="删除" :disabled="true" placement="top-start">
