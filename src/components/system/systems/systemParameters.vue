@@ -139,14 +139,12 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.other.totalCount = res.totalCount;
-          let list = res.sysParaList;
-          if(can){
-            this.array.tableData = list || [];
-          }else{
-            this.array.tableData.push(...list);
-          }
+        this.other.totalCount = res.totalCount;
+        let list = res.sysParaList;
+        if(can){
+          this.array.tableData = list || [];
+        }else{
+          this.array.tableData.push(...list);
         }
       });
     },
@@ -158,14 +156,12 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if (data.returnCode == '1') {
-          this.popupForm.sysParaID = sysParaID;
-          this.popupForm.paraCode = res.sysPara.paraCode;
-          this.popupForm.paraName = res.sysPara.paraName;
-          this.popupForm.paraValue = res.sysPara.paraValue;
-          this.popupForm.paraDesc = res.sysPara.paraDesc;
-          this.alert.formVisible = true;
-        }
+        this.popupForm.sysParaID = sysParaID;
+        this.popupForm.paraCode = res.sysPara.paraCode;
+        this.popupForm.paraName = res.sysPara.paraName;
+        this.popupForm.paraValue = res.sysPara.paraValue;
+        this.popupForm.paraDesc = res.sysPara.paraDesc;
+        this.alert.formVisible = true;
       });
     },
     //编辑保存
@@ -180,14 +176,12 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if (data.returnCode == '1') {
-          this.$message({
-            type: 'success',
-            message: message,
-            duration: 1000
-          });
-          this.queryData(true);
-        }
+        this.$message({
+          type: 'success',
+          message: message,
+          duration: 1000
+        });
+        this.queryData(true);
       });
       this.alert.formVisible = false;
     },

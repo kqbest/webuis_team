@@ -187,9 +187,7 @@ export default {
     findTree() {
       this.$http.get(this.$location.sysAreaManagerfindTree).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.treeOptions = res || [];
-        }
+        this.treeOptions = res || [];
       });
     },
     //加载列表
@@ -203,14 +201,12 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.totalCount = res.totalCount;
-          let sysAreaList = res.sysAreaList;
-          if(can){
-            this.tableData = sysAreaList || [];
-          }else{
-            this.tableData.push(...sysAreaList);
-          }
+        this.totalCount = res.totalCount;
+        let sysAreaList = res.sysAreaList;
+        if(can){
+          this.tableData = sysAreaList || [];
+        }else{
+          this.tableData.push(...sysAreaList);
         }
       }).catch(error => {
         console.log(error);
@@ -229,15 +225,13 @@ export default {
           }
         }).then(data => {
           let message = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-            });
-            this.findPage(true);
-            this.findTree();
-          }
+          this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+          });
+          this.findPage(true);
+          this.findTree();
         });
       }).catch(() => {});
     },
@@ -290,21 +284,19 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if(data.returnCode == '1'){
-          this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-          });
-          if(type == '1'){
-            this.formAdd.code = '';
-            this.formAdd.name = '';
-          }else{
-            this.resetForm('formAdd');
-          }
-          this.findPage();
-          this.findTree();
+        this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+        });
+        if(type == '1'){
+          this.formAdd.code = '';
+          this.formAdd.name = '';
+        }else{
+          this.resetForm('formAdd');
         }
+        this.findPage();
+        this.findTree();
       });
     },
     //编辑
@@ -327,15 +319,13 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if(data.returnCode == '1'){
-          this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-          });
-          this.findPage();
-          this.findTree();
-        }
+        this.$message({
+          type: 'success',
+          message: message,
+          duration: 1000
+        });
+        this.findPage();
+        this.findTree();
       });
     }
   }

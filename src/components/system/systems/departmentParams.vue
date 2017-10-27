@@ -207,15 +207,13 @@ export default {
     findTree() {
       this.$http.get(this.$location.sysDepParafindTree).then(data => {
         let res = data.returnContent;
-        if (data.returnCode == '1') {
-          this.array.treeOptions = res || [];
-          if (this.other.isFirst) {
-            this.navForm.treeValue.push(this.array.treeOptions[0].depID);
-            this.other.isFirst = false;
-            let len = this.navForm.treeValue.length;
-            this.treeArea(this.array.treeOptions,this.navForm.treeValue[len-1]);
-            this.queryData(true);
-          }
+        this.array.treeOptions = res || [];
+        if (this.other.isFirst) {
+          this.navForm.treeValue.push(this.array.treeOptions[0].depID);
+          this.other.isFirst = false;
+          let len = this.navForm.treeValue.length;
+          this.treeArea(this.array.treeOptions,this.navForm.treeValue[len-1]);
+          this.queryData(true);
         }
       });
     },
@@ -233,14 +231,12 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.other.totalCount = res.totalCount;
-          let list = res.sysDepParaList;
-          if(can){
-            this.array.tableData = list || [];
-          }else{
-            this.array.tableData.push(...list);
-          }
+        this.other.totalCount = res.totalCount;
+        let list = res.sysDepParaList;
+        if(can){
+          this.array.tableData = list || [];
+        }else{
+          this.array.tableData.push(...list);
         }
       });
     },
@@ -254,24 +250,22 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if (data.returnCode == '1') {
-          this.popupForm.paraID = paraID;
-          this.popupForm.hospitalName = res.sysDepPara.hospitalName;
-          this.popupForm.departmentName = res.sysDepPara.departmentName;
-          this.popupForm.paraGroup = res.sysDepPara.paraGroup;
-          this.popupForm.paraCode = res.sysDepPara.paraCode;
-          this.popupForm.paraName = res.sysDepPara.paraName;
-          this.popupForm.paraValue = res.sysDepPara.paraValue;
-          this.popupForm.paraDesc = res.sysDepPara.paraDesc;
-          //判断是输入框还是下拉框（0为输入框 1为下拉框）
-          if (res.paraValueType == 0){
-            this.other.isInput = true;
-          }else if(res.paraValueType == 1){
-            this.array.selectList = res.paraValueTypeArray || [];
-            this.other.isInput = false;
-          }
-          this.alert.formVisible = true;
+        this.popupForm.paraID = paraID;
+        this.popupForm.hospitalName = res.sysDepPara.hospitalName;
+        this.popupForm.departmentName = res.sysDepPara.departmentName;
+        this.popupForm.paraGroup = res.sysDepPara.paraGroup;
+        this.popupForm.paraCode = res.sysDepPara.paraCode;
+        this.popupForm.paraName = res.sysDepPara.paraName;
+        this.popupForm.paraValue = res.sysDepPara.paraValue;
+        this.popupForm.paraDesc = res.sysDepPara.paraDesc;
+        //判断是输入框还是下拉框（0为输入框 1为下拉框）
+        if (res.paraValueType == 0){
+          this.other.isInput = true;
+        }else if(res.paraValueType == 1){
+          this.array.selectList = res.paraValueTypeArray || [];
+          this.other.isInput = false;
         }
+        this.alert.formVisible = true;
       });
     },
     //编辑保存
@@ -285,14 +279,12 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if (data.returnCode == '1') {
-          this.$message({
-            type: 'success',
-            message: message,
-            duration: 1000
-          });
-          this.queryData(true);
-        }
+        this.$message({
+          type: 'success',
+          message: message,
+          duration: 1000
+        });
+        this.queryData(true);
       });
       this.alert.formVisible = false;
     },

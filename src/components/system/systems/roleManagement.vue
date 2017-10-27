@@ -195,17 +195,15 @@ export default {
     findTree() {
       this.$http.get(this.$location.sysRoleManagerfindTree).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.array.treeOptions = res;
-          //默认选中第一个
-          if(this.array.treeOptions.length > 0){
-            if(this.other.isFirst){
-              this.form.treeValue.push(this.array.treeOptions[0].depID);
-              this.other.isFirst = false;
-              let len = this.form.treeValue.length;
-              this.treeArea(this.array.treeOptions,this.form.treeValue[len-1]);
-              this.queryData(true);
-            }
+        this.array.treeOptions = res;
+        //默认选中第一个
+        if(this.array.treeOptions.length > 0){
+          if(this.other.isFirst){
+            this.form.treeValue.push(this.array.treeOptions[0].depID);
+            this.other.isFirst = false;
+            let len = this.form.treeValue.length;
+            this.treeArea(this.array.treeOptions,this.form.treeValue[len-1]);
+            this.queryData(true);
           }
         }
       });
@@ -222,13 +220,11 @@ export default {
       }).then(data => {
         let res = data.returnContent;
         let list = res.sysRoleList;
-        if(data.returnCode == '1'){
-          this.other.totalCount = res.totalCount;
-          if(can){
-            this.array.tableData = list;
-          }else{
-            this.array.tableData.push(...list);
-          }
+        this.other.totalCount = res.totalCount;
+        if(can){
+          this.array.tableData = list;
+        }else{
+          this.array.tableData.push(...list);
         }
       });
     },
@@ -247,17 +243,15 @@ export default {
           }
         }).then(data => {
           let res = data.returnContent;
-          if(data.returnCode == '1'){
-            this.array.menuArr = res.sysMenuTree;
-            this.array.authArr = res.authTree;
-            this.array.diagnArr = res.assistTree;
-            this.array.auditArr = res.assistTree;
+          this.array.menuArr = res.sysMenuTree;
+          this.array.authArr = res.authTree;
+          this.array.diagnArr = res.assistTree;
+          this.array.auditArr = res.assistTree;
 
-            this.popupForm.hospitalID = this.obj.tableParms.hospitalID;
-            this.popupForm.hospitalName = this.obj.tableParms.hospitalName;
-            this.popupForm.departmentID = this.obj.tableParms.depID;
-            this.popupForm.depName = this.obj.tableParms.depName;
-          }
+          this.popupForm.hospitalID = this.obj.tableParms.hospitalID;
+          this.popupForm.hospitalName = this.obj.tableParms.hospitalName;
+          this.popupForm.departmentID = this.obj.tableParms.depID;
+          this.popupForm.depName = this.obj.tableParms.depName;
         });
         this.other.title = '新建';
         this.other.isAdd = true;
@@ -303,14 +297,12 @@ export default {
         }
       }).then(data => {
         let msg = data.returnContent;
-        if(data.returnCode == '1'){
-          this.$message({
-            type: 'success',
-            message: msg,
-            duration: 1000
-          });
-          this.queryData(true);
-        }
+        this.$message({
+          type: 'success',
+          message: msg,
+          duration: 1000
+        });
+        this.queryData(true);
       });
       //判断是 保存/保存并新建
       if(type == '1'){
@@ -342,48 +334,46 @@ export default {
       }).then(data => {
         let res = data.returnContent;
         let role = res.sysRoleManager;
-        if(data.returnCode == '1'){
-          this.popupForm.roleID = roleID;
-          this.array.menuArr = res.sysMenuTree;
-          this.array.authArr = res.authTree;
-          this.array.diagnArr = res.assistTree;
-          this.array.auditArr = res.assistTree;
-          this.popupForm.hospitalID = role.hospitalID;
-          this.popupForm.hospitalName = role.hospitalName;
-          this.popupForm.departmentID = role.departmentID;
-          this.popupForm.departmentName = role.departmentName;
-          this.popupForm.roleName = role.roleName;
-          this.popupForm.roleDesc = role.roleDesc;
-          let mArr = role.menuIDArray;
-          let rArr = role.rightIDArray;
-          let diagn = role.diagnosisIDArray.split(';');
-          let audit = role.auditIDArray.split(';');
-          let dArr = '';
-          let aArr = '';
-          diagn.forEach((k, i) => {
-            let treeID = k.split(',')[1];
-            if(dArr == ''){
-              dArr = treeID;
-            }else{
-              dArr += ',' + treeID;
-            }
-          });
-          audit.forEach((k, i) => {
-            let treeID = k.split(',')[1];
-            if(aArr == ''){
-              aArr = treeID;
-            }else{
-              aArr += ',' + treeID;
-            }
-          });
-          this.$refs.tree1.setCheckedKeys(mArr.split(','));//菜单权限
-          this.$refs.tree2.setCheckedKeys(rArr.split(','));//功能权限
-          if(dArr){
-            this.$refs.tree3.setCheckedKeys(dArr.split(','));//诊断权限
+        this.popupForm.roleID = roleID;
+        this.array.menuArr = res.sysMenuTree;
+        this.array.authArr = res.authTree;
+        this.array.diagnArr = res.assistTree;
+        this.array.auditArr = res.assistTree;
+        this.popupForm.hospitalID = role.hospitalID;
+        this.popupForm.hospitalName = role.hospitalName;
+        this.popupForm.departmentID = role.departmentID;
+        this.popupForm.departmentName = role.departmentName;
+        this.popupForm.roleName = role.roleName;
+        this.popupForm.roleDesc = role.roleDesc;
+        let mArr = role.menuIDArray;
+        let rArr = role.rightIDArray;
+        let diagn = role.diagnosisIDArray.split(';');
+        let audit = role.auditIDArray.split(';');
+        let dArr = '';
+        let aArr = '';
+        diagn.forEach((k, i) => {
+          let treeID = k.split(',')[1];
+          if(dArr == ''){
+            dArr = treeID;
+          }else{
+            dArr += ',' + treeID;
           }
-          if(aArr){
-            this.$refs.tree4.setCheckedKeys(aArr.split(','));//审核权限
+        });
+        audit.forEach((k, i) => {
+          let treeID = k.split(',')[1];
+          if(aArr == ''){
+            aArr = treeID;
+          }else{
+            aArr += ',' + treeID;
           }
+        });
+        this.$refs.tree1.setCheckedKeys(mArr.split(','));//菜单权限
+        this.$refs.tree2.setCheckedKeys(rArr.split(','));//功能权限
+        if(dArr){
+          this.$refs.tree3.setCheckedKeys(dArr.split(','));//诊断权限
+        }
+        if(aArr){
+          this.$refs.tree4.setCheckedKeys(aArr.split(','));//审核权限
         }
       });
       this.other.title = '编辑';
@@ -430,14 +420,12 @@ export default {
         }
       }).then(data => {
         let msg = data.returnContent;
-        if(data.returnCode == '1'){
-          this.$message({
-            type: 'success',
-            message: msg,
-            duration: 1000
-          });
-          this.queryData(true);
-        }
+        this.$message({
+          type: 'success',
+          message: msg,
+          duration: 1000
+        });
+        this.queryData(true);
       });
       //清空弹框数据
       this.resetForm('popupForm');
@@ -471,14 +459,12 @@ export default {
           }
         }).then(data => {
           let msg = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: msg,
-              duration: 1000
-            });
-            this.queryData(true);
-          }
+          this.$message({
+            type: 'success',
+            message: msg,
+            duration: 1000
+          });
+          this.queryData(true);
         });
       }).catch(() => {});
     },
@@ -495,14 +481,12 @@ export default {
           }
         }).then(data => {
           let msg = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: msg,
-              duration: 1000
-            });
-            this.queryData(true);
-          }
+          this.$message({
+            type: 'success',
+            message: msg,
+            duration: 1000
+          });
+          this.queryData(true);
         });
       }).catch(() => {});
     },

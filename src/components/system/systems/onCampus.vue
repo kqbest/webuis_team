@@ -85,9 +85,7 @@ export default {
     findTree() {
       this.$http.get(this.$location.sysMenuManagerfindTree).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.treeOptions = res || [];
-        }
+        this.treeOptions = res || [];
       });
     },
     //加载列表
@@ -101,14 +99,12 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.totalCount = res.totalCount;
-          let sysMenuList = res.sysMenuList;
-          if(can){
-            this.tableData = sysMenuList || [];
-          }else{
-            this.tableData.push(...sysMenuList);
-          }
+        this.totalCount = res.totalCount;
+        let sysMenuList = res.sysMenuList;
+        if(can){
+          this.tableData = sysMenuList || [];
+        }else{
+          this.tableData.push(...sysMenuList);
         }
       });
     },
@@ -134,14 +130,12 @@ export default {
           }
         }).then(data => {
           let message = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-            });
-            this.findPage();
-          }
+          this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+          });
+          this.findPage();
         });
       }).catch(() => {});
     },

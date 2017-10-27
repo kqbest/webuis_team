@@ -91,7 +91,39 @@ var ckq={
 	sysUserInfoloadDept: title + 'systemmanagement/systemsetting/sysUserInfo/loadDept',//日志-加载科室
 	sysUserInfoloadUser: title + 'systemmanagement/systemsetting/sysUserInfo/loadUser',//日志-加载用户
 	sysServerLogdelete: title + 'systemmanagement/systemsetting/sysServerLog/delete',//日志-删除
+	
+	sysCommonSignfindTree: title + 'systemmanagement/templatesetting/sysCommonSign/findTree',//常用符号-左侧树形
+	sysCommonSignfindPage: title + 'systemmanagement/templatesetting/sysCommonSign/findPage',//常用符号-列表
+	sysCommonSigninsert: title + 'systemmanagement/templatesetting/sysCommonSign/insert',//常用符号-新建保存
+	sysCommonSignupdate: title + 'systemmanagement/templatesetting/sysCommonSign/update',//常用符号-编辑保存
+	sysCommonSignupdateState: title + 'systemmanagement/templatesetting/sysCommonSign/updateState',//常用符号-启用状态
+	sysCommonSigndelete: title + 'systemmanagement/templatesetting/sysCommonSign/delete',//常用符号-删除
 
+	sysKeyWordfindTree: title + 'systemmanagement/templatesetting/sysKeyWord/findTree',//关键短语-左侧树形
+	sysKeyWordfindPage: title + 'systemmanagement/templatesetting/sysKeyWord/findPage',//关键短语-列表
+	sysKeyWordinsert: title + 'systemmanagement/templatesetting/sysKeyWord/insert',//关键短语-新建保存
+	sysKeyWordupdate: title + 'systemmanagement/templatesetting/sysKeyWord/update',//关键短语-编辑保存
+	sysKeyWordupdateState: title + 'systemmanagement/templatesetting/sysKeyWord/updateState',//关键短语-启用状态
+	sysKeyWorddelete: title + 'systemmanagement/templatesetting/sysKeyWord/delete',//关键短语-删除
+
+	sysTemplateClassfindTree: title + 'systemmanagement/templatesetting/sysTemplateClass/findTree',//模板管理-左侧树形
+	sysTemplateClassfindPage: title + 'systemmanagement/templatesetting/sysTemplateClass/findPage',//模板管理-列表
+	sysTemplateClassinsertReady: title + 'systemmanagement/templatesetting/sysTemplateClass/insertReady',//模板管理-新建初始化
+	sysTemplateClassinsert: title + 'systemmanagement/templatesetting/sysTemplateClass/insert',//模板管理-新建保存
+	sysTemplateClassupdateQuery: title + 'systemmanagement/templatesetting/sysTemplateClass/updateQuery',//模板管理-编辑初始化
+	sysTemplateClassupdate: title + 'systemmanagement/templatesetting/sysTemplateClass/update',//模板管理-编辑保存
+	sysTemplateClassupdateState: title + 'systemmanagement/templatesetting/sysTemplateClass/updateState',//模板管理-启用状态
+	sysTemplateClassdelete: title + 'systemmanagement/templatesetting/sysTemplateClass/delete',//模板管理-删除
+
+
+	sysWordBasefindTree: title + 'systemmanagement/templatesetting/sysWordBase/findTree',//书写词库-左侧树形
+	sysWordBasefindPage: title + 'systemmanagement/templatesetting/sysWordBase/findPage',//书写词库-列表
+	sysWordBaseinsertReady: title + 'systemmanagement/templatesetting/sysWordBase/insertReady',//书写词库-新建初始化
+	sysWordBaseinsert: title + 'systemmanagement/templatesetting/sysWordBase/insert',//书写词库-新建保存
+	sysWordBaseupdateQuery: title + 'systemmanagement/templatesetting/sysWordBase/updateQuery',//书写词库-编辑初始化
+	sysWordBaseupdate: title + 'systemmanagement/templatesetting/sysWordBase/update',//书写词库-编辑保存
+	sysWordBaseupdateState: title + 'systemmanagement/templatesetting/sysWordBase/updateState',//书写词库-启用状态
+	sysWordBasedelete: title + 'systemmanagement/templatesetting/sysWordBase/delete',//书写词库-删除
 }
 
 

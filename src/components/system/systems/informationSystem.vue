@@ -193,14 +193,12 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.other.totalCount = res.totalCount;
-          let list = res.sysDataDicList;
-          if(can){
-            this.array.tableData = list || [];
-          }else{
-            this.array.tableData.push(...list);
-          }
+        this.other.totalCount = res.totalCount;
+        let list = res.sysDataDicList;
+        if(can){
+          this.array.tableData = list || [];
+        }else{
+          this.array.tableData.push(...list);
         }
       });
     },
@@ -219,10 +217,8 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if (data.returnCode == '1') {
-          this.other.pop_totalCount = res.totalCount;
-          this.array.pop_tableData = res.sysDataDicList || [];
-        }
+        this.other.pop_totalCount = res.totalCount;
+        this.array.pop_tableData = res.sysDataDicList || [];
       });
       this.alert.formVisible = true;
     },
@@ -248,14 +244,12 @@ export default {
           }
         }).then(data => {
           let message = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-            });
-            this.editInfo(this.obj.dataList);
-          }
+          this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+          });
+          this.editInfo(this.obj.dataList);
         });
       }).catch(() => {});
     },
@@ -272,14 +266,12 @@ export default {
           }
         }).then(data => {
           let message = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-            });
-            this.editInfo(this.obj.dataList);
-          }
+          this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+          });
+          this.editInfo(this.obj.dataList);
         });
       }).catch(() => {});
     },
@@ -306,14 +298,12 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if(data.returnCode == '1'){
-          this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-          });
-          this.editInfo(this.obj.dataList);
-        }
+        this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+        });
+        this.editInfo(this.obj.dataList);
       });
       this.alert.formAddVisible = false;
     },
@@ -327,11 +317,9 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if (data.returnCode == '1') {
-          this.formAdd.code = res.dataDicValueCode;
-          this.formAdd.name = res.dataDicValueName;
-          this.formAdd.dataDicValueID = res.dataDicValueID;
-        }
+        this.formAdd.code = res.dataDicValueCode;
+        this.formAdd.name = res.dataDicValueName;
+        this.formAdd.dataDicValueID = res.dataDicValueID;
       });
       this.alert.formAddVisible = true;
     },
@@ -347,14 +335,12 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if (data.returnCode == '1') {
-          this.$message({
-            type: 'success',
-            message: message,
-            duration: 1000
-          });
-          this.editInfo(this.obj.dataList);
-        }
+        this.$message({
+          type: 'success',
+          message: message,
+          duration: 1000
+        });
+        this.editInfo(this.obj.dataList);
       });
       this.alert.formAddVisible = false;
     }

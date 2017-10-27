@@ -68,19 +68,55 @@ const logs = resolve => {
   })
 }
 
+//系统工作站->模板设置->常用符号
+const commonSymbol = resolve => {
+  require.ensure(['../components/system/template/commonSymbol.vue'], () => {
+    resolve(require('../components/system/template/commonSymbol.vue'))
+  })
+}
+//系统工作站->模板设置->关键短语
+const keyPhrase = resolve => {
+  require.ensure(['../components/system/template/keyPhrase.vue'], () => {
+    resolve(require('../components/system/template/keyPhrase.vue'))
+  })
+}
+//系统工作站->模板设置->模板分类
+const templateClassify = resolve => {
+  require.ensure(['../components/system/template/templateClassify.vue'], () => {
+    resolve(require('../components/system/template/templateClassify.vue'))
+  })
+}
+//系统工作站->模板设置->书写模板
+const whiteTemplate = resolve => {
+  require.ensure(['../components/system/template/whiteTemplate.vue'], () => {
+    resolve(require('../components/system/template/whiteTemplate.vue'))
+  })
+}
+//系统工作站->模板设置->书写词汇
+const whiteLexicon = resolve => {
+  require.ensure(['../components/system/template/whiteLexicon.vue'], () => {
+    resolve(require('../components/system/template/whiteLexicon.vue'))
+  })
+}
 
 let system=[
-{	path: '/',						component: onCampus, 	            name: '插件管理'},
-{	path: '/pluginManagement',  	component: pluginManagement,        name: '地区管理'},
-{	path: '/regionalManagement',	component: regionalManagement,      name: '院区管理'},
-{	path: '/managementDepartment',	component: managementDepartment,    name: '科室管理'},
-{	path: '/roleManagement',		component: roleManagement,      	name: '角色管理'},
-{	path: '/user',					component: user,      				name: '用户管理'},
-{	path: '/informationSystem',		component: informationSystem,       name: '系统字典'},
-{	path: '/informationDepartment',	component: informationDepartment,   name: '科室字典'},
-{	path: '/systemParameters',		component: systemParameters,      	name: '院区管理'},
-{	path: '/departmentParams',		component: departmentParams,      	name: '科室参数'},
-{	path: '/logs',					component: logs,      				name: '日志管理'},
+  {	path: '/',						          component: onCampus, 	              name: '插件管理'},
+  {	path: '/pluginManagement',  	  component: pluginManagement,        name: '地区管理'},
+  {	path: '/regionalManagement',	  component: regionalManagement,      name: '院区管理'},
+  {	path: '/managementDepartment',	component: managementDepartment,    name: '科室管理'},
+  {	path: '/roleManagement',		    component: roleManagement,      	  name: '角色管理'},
+  {	path: '/user',					        component: user,      				      name: '用户管理'},
+  {	path: '/informationSystem',		  component: informationSystem,       name: '系统字典'},
+  {	path: '/informationDepartment',	component: informationDepartment,   name: '科室字典'},
+  {	path: '/systemParameters',		  component: systemParameters,      	name: '院区管理'},
+  {	path: '/departmentParams',		  component: departmentParams,      	name: '科室参数'},
+  { path: '/logs',                  component: logs,                    name: '日志管理'},
+
+  { path: '/commonSymbol',          component: commonSymbol,            name: '常用符号'},
+  { path: '/keyPhrase',             component: keyPhrase,               name: '关键短语'},
+  { path: '/templateClassify',      component: templateClassify,        name: '模板分类'},
+  { path: '/whiteTemplate',         component: whiteTemplate,           name: '书写模板'},
+  {	path: '/whiteLexicon',					component: whiteLexicon,      		  name: '书写词汇'},
 ]
 
 export default system;

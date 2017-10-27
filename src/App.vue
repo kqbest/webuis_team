@@ -64,23 +64,23 @@
               <i class="el-icon-message"></i>
               <span slot="title">模板设置</span>
             </template>
-            <el-menu-item index="2-1">
+            <el-menu-item index="/commonSymbol">
               <i class="el-icon-menu"></i>
               <span slot="title">常用符号</span>
             </el-menu-item>
-            <el-menu-item index="2-2">
+            <el-menu-item index="/keyPhrase">
               <i class="el-icon-menu"></i>
               <span slot="title">关键短语</span>
             </el-menu-item>
-            <el-menu-item index="2-3">
+            <el-menu-item index="/templateClassify">
               <i class="el-icon-menu"></i>
               <span slot="title">模板分类</span>
             </el-menu-item>
-            <el-menu-item index="2-4">
+            <el-menu-item index="/whiteTemplate">
               <i class="el-icon-menu"></i>
               <span slot="title">书写模板</span>
             </el-menu-item>
-            <el-menu-item index="2-5">
+            <el-menu-item index="/whiteLexicon">
               <i class="el-icon-menu"></i>
               <span slot="title">书写词库</span>
             </el-menu-item>

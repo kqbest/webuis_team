@@ -202,17 +202,15 @@ export default {
     findTree() {
       this.$http.get(this.$location.sysDepDataDicfindTree).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.array.treeOptions = res || [];
-          //默认选中第一个
-          if(this.array.treeOptions.length > 0){
-            if(this.other.isFirst){
-              this.navForm.treeValue.push(this.array.treeOptions[0].depID);
-              this.other.isFirst = false;
-              let len = this.navForm.treeValue.length;
-              this.treeArea(this.array.treeOptions,this.navForm.treeValue[len-1]);
-              this.findPage(true);
-            }
+        this.array.treeOptions = res || [];
+        //默认选中第一个
+        if(this.array.treeOptions.length > 0){
+          if(this.other.isFirst){
+            this.navForm.treeValue.push(this.array.treeOptions[0].depID);
+            this.other.isFirst = false;
+            let len = this.navForm.treeValue.length;
+            this.treeArea(this.array.treeOptions,this.navForm.treeValue[len-1]);
+            this.findPage(true);
           }
         }
       });
@@ -230,14 +228,12 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.other.totalCount = res.totalCount;
-          let list = res.sysDepDataDicList;
-          if(can){
-            this.array.tableData = list || [];
-          }else{
-            this.array.tableData.push(...list);
-          }
+        this.other.totalCount = res.totalCount;
+        let list = res.sysDepDataDicList;
+        if(can){
+          this.array.tableData = list || [];
+        }else{
+          this.array.tableData.push(...list);
         }
       });
     },
@@ -260,10 +256,8 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if (data.returnCode == '1') {
-          this.other.pop_totalCount = res.totalCount;
-          this.array.pop_tableData = res.sysDepDataDicList || [];
-        }
+        this.other.pop_totalCount = res.totalCount;
+        this.array.pop_tableData = res.sysDepDataDicList || [];
       });
       this.alert.formVisible = true;
     },
@@ -283,9 +277,7 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if (data.returnCode == '1') {
-          this.array.parentData = res;
-        }
+        this.array.parentData = res;
       });
     },
     //新建保存
@@ -301,14 +293,12 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if(data.returnCode == '1'){
-          this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-          });
-          this.editInfo(this.obj.dataList);
-        }
+        this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+        });
+        this.editInfo(this.obj.dataList);
       });
       this.alert.formAddVisible = false;
     },
@@ -327,11 +317,9 @@ export default {
         }
       }).then(data => {
         let info = data.returnContent.sysDepDataDic;
-        if (data.returnCode == '1') {
-          this.formAdd.code = info.depDataDicValueCode;
-          this.formAdd.name = info.depDataDicValueName;
-          this.formAdd.parent = info.depDataDicParent;
-        }
+        this.formAdd.code = info.depDataDicValueCode;
+        this.formAdd.name = info.depDataDicValueName;
+        this.formAdd.parent = info.depDataDicParent;
       });
     },
     //弹框-编辑保存
@@ -350,14 +338,12 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if (data.returnCode == '1') {
-          this.$message({
-            type: 'success',
-            message: message,
-            duration: 1000
-          });
-          this.editInfo(this.obj.dataList);
-        }
+        this.$message({
+          type: 'success',
+          message: message,
+          duration: 1000
+        });
+        this.editInfo(this.obj.dataList);
       });
     },
     //启用状态
@@ -382,14 +368,12 @@ export default {
           }
         }).then(data => {
           let message = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-            });
-            this.editInfo(this.obj.dataList);
-          }
+          this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+          });
+          this.editInfo(this.obj.dataList);
         });
       }).catch(() => {});
     },
@@ -406,14 +390,12 @@ export default {
           }
         }).then(data => {
           let message = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-            });
-            this.editInfo(this.obj.dataList);
-          }
+          this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+          });
+          this.editInfo(this.obj.dataList);
         });
       }).catch(() => {});
     },

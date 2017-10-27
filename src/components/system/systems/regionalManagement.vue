@@ -199,9 +199,7 @@ export default {
     findTree() {
       this.$http.get(this.$location.sysHospitalManagerfindTree).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.treeOptions = res || [];
-        }
+        this.treeOptions = res || [];
       });
     },
     //加载列表
@@ -262,14 +260,12 @@ export default {
         params: param
       }).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.totalCount = res.totalCount;
-          let sysHospitalList = res.sysHospitalList;
-          if (can) {
-           this.tableData = sysHospitalList || [];
-          }else{
-            this.tableData.push(...sysHospitalList);
-          }
+        this.totalCount = res.totalCount;
+        let sysHospitalList = res.sysHospitalList;
+        if (can) {
+         this.tableData = sysHospitalList || [];
+        }else{
+          this.tableData.push(...sysHospitalList);
         }
       });
     },
@@ -286,15 +282,13 @@ export default {
           }
         }).then(data => {
           let message = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-                type: 'success',
-                message: message,
-                duration: 1000
-            });
-            this.findPage(true);
-            this.findTree();
-          }
+          this.$message({
+              type: 'success',
+              message: message,
+              duration: 1000
+          });
+          this.findPage(true);
+          this.findTree();
         });
       }).catch(() => {});
     },
@@ -330,12 +324,10 @@ export default {
     addInfo() {
       this.$http.get(this.$location.sysHospitalManagerinsertReady).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          let hospitalGradeList = res.hospitalGradeList;
-          let sysAreaList = res.sysAreaList;
-          this.selectDate.hospitalGradeList = hospitalGradeList || [];
-          this.selectDate.provinceList = sysAreaList || [];
-        }
+        let hospitalGradeList = res.hospitalGradeList;
+        let sysAreaList = res.sysAreaList;
+        this.selectDate.hospitalGradeList = hospitalGradeList || [];
+        this.selectDate.provinceList = sysAreaList || [];
       });
       this.isAdd = true;
       this.title = '新建';
@@ -357,28 +349,26 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if(data.returnCode == '1'){
-          this.$message({
-              type: 'success',
-              message: message,
-              duration: 1000
-          });
-          if(type == '1'){
-            this.formAdd.hospitalCode = '';
-            this.formAdd.hospitalName = '';
-            this.formAdd.postCode = '';
-            this.formAdd.phone = '';
-            this.formAdd.hospitalGradeID = '';
-            this.formAdd.provinceID = '';
-            this.formAdd.cityID = '';
-            this.formAdd.countyID = '';
-            this.formAdd.streetID = '';
-          }else{
-            this.resetForm('formAdd');
-            this.alert.formAddVisible = false;
-          }
-          this.findPage(true);
+        this.$message({
+            type: 'success',
+            message: message,
+            duration: 1000
+        });
+        if(type == '1'){
+          this.formAdd.hospitalCode = '';
+          this.formAdd.hospitalName = '';
+          this.formAdd.postCode = '';
+          this.formAdd.phone = '';
+          this.formAdd.hospitalGradeID = '';
+          this.formAdd.provinceID = '';
+          this.formAdd.cityID = '';
+          this.formAdd.countyID = '';
+          this.formAdd.streetID = '';
+        }else{
+          this.resetForm('formAdd');
+          this.alert.formAddVisible = false;
         }
+        this.findPage(true);
       });
     },
     //编辑
@@ -392,27 +382,25 @@ export default {
         let hospitalGradeList = res.hospitalGradeList;
         let sysAreaList = res.sysAreaList;
         let sysHospitalManager = res.sysHospitalManager;
-        if(data.returnCode == '1'){
-          this.selectDate.hospitalGradeList = hospitalGradeList || [];
-          this.selectDate.provinceList = sysAreaList || [];
+        this.selectDate.hospitalGradeList = hospitalGradeList || [];
+        this.selectDate.provinceList = sysAreaList || [];
 
-          this.formAdd.hospitalCode = sysHospitalManager.hospitalCode;
-          this.formAdd.hospitalName = sysHospitalManager.hospitalName;
-          this.formAdd.postCode = sysHospitalManager.postCode;
-          this.formAdd.phone = sysHospitalManager.phone;
-          this.formAdd.hospitalGradeID = sysHospitalManager.hospitalGradeID.toString();
-          this.formAdd.provinceID = sysHospitalManager.provinceID;
-          this.formAdd.cityID = sysHospitalManager.cityID;
-          this.formAdd.countyID = sysHospitalManager.countyID;
-          if(sysHospitalManager.streetID == '0'){
-            sysHospitalManager.streetID = '';
-          }
-          this.formAdd.streetID = sysHospitalManager.streetID;
-          this.formAdd.hospitalID = hospitalID;
-          this.loadArea(this.formAdd.provinceID,'1');
-          this.loadArea(this.formAdd.cityID,'2');
-          this.loadArea(this.formAdd.countyID,'3');
+        this.formAdd.hospitalCode = sysHospitalManager.hospitalCode;
+        this.formAdd.hospitalName = sysHospitalManager.hospitalName;
+        this.formAdd.postCode = sysHospitalManager.postCode;
+        this.formAdd.phone = sysHospitalManager.phone;
+        this.formAdd.hospitalGradeID = sysHospitalManager.hospitalGradeID.toString();
+        this.formAdd.provinceID = sysHospitalManager.provinceID;
+        this.formAdd.cityID = sysHospitalManager.cityID;
+        this.formAdd.countyID = sysHospitalManager.countyID;
+        if(sysHospitalManager.streetID == '0'){
+          sysHospitalManager.streetID = '';
         }
+        this.formAdd.streetID = sysHospitalManager.streetID;
+        this.formAdd.hospitalID = hospitalID;
+        this.loadArea(this.formAdd.provinceID,'1');
+        this.loadArea(this.formAdd.cityID,'2');
+        this.loadArea(this.formAdd.countyID,'3');
       });
       this.isAdd = false;
       this.title = '编辑';
@@ -435,16 +423,14 @@ export default {
         }
       }).then(data => {
         let message = data.returnContent;
-        if(data.returnCode == '1'){
-          this.$message({
-            type: 'success',
-            message: message,
-            duration: 1000
-          });
-          this.resetForm('formAdd');
-          this.alert.formAddVisible = false;
-          this.findPage(true);
-        }
+        this.$message({
+          type: 'success',
+          message: message,
+          duration: 1000
+        });
+        this.resetForm('formAdd');
+        this.alert.formAddVisible = false;
+        this.findPage(true);
       });
       this.formAdd.hospitalID = '';
     },
@@ -459,13 +445,13 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-          if(type == 1){
-            this.selectDate.cityList = res;
-          }else if(type == 2){
-            this.selectDate.countyList = res;
-          }else if(type == 3){
-            this.selectDate.streetList = res;
-          }
+        if(type == 1){
+          this.selectDate.cityList = res;
+        }else if(type == 2){
+          this.selectDate.countyList = res;
+        }else if(type == 3){
+          this.selectDate.streetList = res;
+        }
       });
     },
     addClose() {

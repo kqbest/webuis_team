@@ -270,17 +270,15 @@ export default {
     findTree() {
       this.$http.get(this.$location.sysUserInfofindTree).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.array.treeOptions = res;
-          //默认选中第一个
-          if(this.array.treeOptions.length > 0){
-            if(this.other.isFirst){
-              this.form.treeValue.push(this.array.treeOptions[0].depID);
-              this.other.isFirst = false;
-              let len = this.form.treeValue.length;
-              this.treeArea(this.array.treeOptions,this.form.treeValue[len-1]);
-              this.queryData(true);
-            }
+        this.array.treeOptions = res;
+        //默认选中第一个
+        if(this.array.treeOptions.length > 0){
+          if(this.other.isFirst){
+            this.form.treeValue.push(this.array.treeOptions[0].depID);
+            this.other.isFirst = false;
+            let len = this.form.treeValue.length;
+            this.treeArea(this.array.treeOptions,this.form.treeValue[len-1]);
+            this.queryData(true);
           }
         }
       });
@@ -299,13 +297,11 @@ export default {
       }).then(data => {
         let res = data.returnContent;
         let list = res.sysUserInfoList;
-        if(data.returnCode == '1'){
-          this.other.totalCount = res.totalCount;
-          if(can){
-            this.array.tableData = list;
-          }else{
-            this.array.tableData.push(...list);
-          }
+        this.other.totalCount = res.totalCount;
+        if(can){
+          this.array.tableData = list;
+        }else{
+          this.array.tableData.push(...list);
         }
       });
     },
@@ -324,17 +320,15 @@ export default {
           }
         }).then(data => {
           let res = data.returnContent;
-          if(data.returnCode == '1'){
-            this.array.dataDicIDList = res.dataDicIDList;
-            this.array.sexList = res.sexList;
-            this.array.userTypeList = res.userTypeList;
-            this.array.sysRoleList = res.sysRoleList;
+          this.array.dataDicIDList = res.dataDicIDList;
+          this.array.sexList = res.sexList;
+          this.array.userTypeList = res.userTypeList;
+          this.array.sysRoleList = res.sysRoleList;
 
-            this.popupForm.hospitalID = res.sysDepartmentManager.hospitalID;
-            this.popupForm.hospitalName = res.sysDepartmentManager.hospitalName;
-            this.popupForm.departmentID = res.sysDepartmentManager.depID;
-            this.popupForm.departmentName = res.sysDepartmentManager.depName;
-          }
+          this.popupForm.hospitalID = res.sysDepartmentManager.hospitalID;
+          this.popupForm.hospitalName = res.sysDepartmentManager.hospitalName;
+          this.popupForm.departmentID = res.sysDepartmentManager.depID;
+          this.popupForm.departmentName = res.sysDepartmentManager.depName;
         });
         this.other.title = '新建';
         this.other.isAdd = true;
@@ -421,40 +415,38 @@ export default {
         }
       }).then(data => {
         let res = data.returnContent;
-        if(data.returnCode == '1'){
-          this.array.dataDicIDList = res.dataDicIDList;
-          this.array.sexList = res.sexList;
-          this.array.userTypeList = res.userTypeList;
-          this.array.sysRoleList = res.sysRoleList;
+        this.array.dataDicIDList = res.dataDicIDList;
+        this.array.sexList = res.sexList;
+        this.array.userTypeList = res.userTypeList;
+        this.array.sysRoleList = res.sysRoleList;
 
-          this.popupForm.hospitalID = res.sysUserInfo.hospitalID;
-          this.popupForm.hospitalName = res.sysUserInfo.hospitalName;
-          this.popupForm.departmentID = res.sysUserInfo.departmentID;
-          this.popupForm.departmentName = res.sysUserInfo.departmentName;
-          this.popupForm.loginName = res.sysUserInfo.loginName;//用户名
-          this.popupForm.userName = res.sysUserInfo.userName;//姓名
-          this.popupForm.jobNumber = res.sysUserInfo.jobNumber;//工号
-          this.popupForm.sex = res.sysUserInfo.sex.toString();//性别
-          this.popupForm.station = res.sysUserInfo.station;//职称
-          this.popupForm.userType = res.sysUserInfo.userType.toString();//用户类型
-          this.popupForm.phone = res.sysUserInfo.phone;//联系电话
-          this.popupForm.shortPhone = res.sysUserInfo.shortPhone;//短号
-          this.popupForm.password = res.sysUserInfo.password;//密码
-          this.popupForm.dataDicID = res.sysUserInfo.dataDicID;//排班岗位
-          this.popupForm.foreverStat = res.sysUserInfo.foreverStat;//永久性标识
-          this.popupForm.startDate = res.sysUserInfo.startDate;//开始日期
-          this.popupForm.endDate = res.sysUserInfo.endDate;//结束日期
-          let sysUserInfo = [];
-          res.sysUserInfo.roleIDArray.split(',').forEach((k,i) => {
-            sysUserInfo.push(parseInt(k));
-          });
-          this.popupForm.roleIDArray = sysUserInfo;//角色
-          this.popupForm.inputMethod = res.sysUserInfo.inputMethod;//输入法
-          this.popupForm.resume = res.sysUserInfo.resume;//个人介绍
-          this.popupForm.cANumbe = res.sysUserInfo.cANumbe;//CA验证码
-          this.popupForm.nameAbbr = res.sysUserInfo.nameAbbr;//名称缩写
-          this.popupForm.userInfoID = res.sysUserInfo.userInfoID;
-        }
+        this.popupForm.hospitalID = res.sysUserInfo.hospitalID;
+        this.popupForm.hospitalName = res.sysUserInfo.hospitalName;
+        this.popupForm.departmentID = res.sysUserInfo.departmentID;
+        this.popupForm.departmentName = res.sysUserInfo.departmentName;
+        this.popupForm.loginName = res.sysUserInfo.loginName;//用户名
+        this.popupForm.userName = res.sysUserInfo.userName;//姓名
+        this.popupForm.jobNumber = res.sysUserInfo.jobNumber;//工号
+        this.popupForm.sex = res.sysUserInfo.sex.toString();//性别
+        this.popupForm.station = res.sysUserInfo.station;//职称
+        this.popupForm.userType = res.sysUserInfo.userType.toString();//用户类型
+        this.popupForm.phone = res.sysUserInfo.phone;//联系电话
+        this.popupForm.shortPhone = res.sysUserInfo.shortPhone;//短号
+        this.popupForm.password = res.sysUserInfo.password;//密码
+        this.popupForm.dataDicID = res.sysUserInfo.dataDicID;//排班岗位
+        this.popupForm.foreverStat = res.sysUserInfo.foreverStat;//永久性标识
+        this.popupForm.startDate = res.sysUserInfo.startDate;//开始日期
+        this.popupForm.endDate = res.sysUserInfo.endDate;//结束日期
+        let sysUserInfo = [];
+        res.sysUserInfo.roleIDArray.split(',').forEach((k,i) => {
+          sysUserInfo.push(parseInt(k));
+        });
+        this.popupForm.roleIDArray = sysUserInfo;//角色
+        this.popupForm.inputMethod = res.sysUserInfo.inputMethod;//输入法
+        this.popupForm.resume = res.sysUserInfo.resume;//个人介绍
+        this.popupForm.cANumbe = res.sysUserInfo.cANumbe;//CA验证码
+        this.popupForm.nameAbbr = res.sysUserInfo.nameAbbr;//名称缩写
+        this.popupForm.userInfoID = res.sysUserInfo.userInfoID;
       });
       this.other.title = '编辑';
       this.other.isAdd = false;
@@ -536,14 +528,12 @@ export default {
           }
         }).then(data => {
           let msg = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: msg,
-              duration: 1000
-            });
-            this.queryData(true);
-          }
+          this.$message({
+            type: 'success',
+            message: msg,
+            duration: 1000
+          });
+          this.queryData(true);
         });
       }).catch(() => {});
     },
@@ -560,14 +550,12 @@ export default {
           }
         }).then(data => {
           let msg = data.returnContent;
-          if(data.returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: msg,
-              duration: 1000
-            });
-            this.queryData(true);
-          }
+          this.$message({
+            type: 'success',
+            message: msg,
+            duration: 1000
+          });
+          this.queryData(true);
         });
       }).catch(() => {});
     },

@@ -176,7 +176,7 @@ export default {
       },
       array: {
         treeOptions: [],//树形数据
-        tableData: [],//表格数据
+        tableData: []//表格数据
       },
       obj: {
         treeProps:{
@@ -217,15 +217,7 @@ export default {
       this.$http.get(this.$location.sysDepartmentManagerfindTree).then(data => {
         let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
-          this.array.treeOptions = res;
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
-        }
+        this.array.treeOptions = res;
       });
     },
     //查询数据
@@ -245,19 +237,11 @@ export default {
         let returnCode = data.returnCode;
         let res = data.returnContent;
         let sysDepartmentList = res.sysDepartmentList;
-        if(returnCode == '1'){
-          this.other.totalCount = res.totalCount;
-          if(can){
-            this.array.tableData = sysDepartmentList;
-          }else{
-            this.array.tableData.push(...sysDepartmentList);
-          }
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
+        this.other.totalCount = res.totalCount;
+        if(can){
+          this.array.tableData = sysDepartmentList;
+        }else{
+          this.array.tableData.push(...sysDepartmentList);
         }
       });
     },
@@ -273,18 +257,10 @@ export default {
       }).then(data => {
         let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
-          this.popupForm.hospitalID = res.hospitalID;
-          this.popupForm.hospitalName = res.hospitalName;
-          this.popupForm.parentDepID = res.parentDepID;
-          this.popupForm.parentDepName = res.parentDepName;
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
-        }
+        this.popupForm.hospitalID = res.hospitalID;
+        this.popupForm.hospitalName = res.hospitalName;
+        this.popupForm.parentDepID = res.parentDepID;
+        this.popupForm.parentDepName = res.parentDepName;
       });
       this.other.title = '新建';
       this.other.isAdd = true;
@@ -311,20 +287,12 @@ export default {
       }).then(data => {
         let returnCode = data.returnCode;
         let msg = data.returnContent;
-        if(returnCode == '1'){
-          this.$message({
-            type: 'success',
-            message: msg,
-            duration: 1000
-          });
-          this.loadReady();
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: msg,
-            duration: 1000
-          });
-        }
+        this.$message({
+          type: 'success',
+          message: msg,
+          duration: 1000
+        });
+        this.loadReady();
       });
       //判断是 保存/保存并新建
       if(type == '1'){
@@ -340,19 +308,11 @@ export default {
       this.$http.get(this.$location.sysDepartmentManagerloadReady).then(data => {
         let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
-          let sysHospitalManagerList = res.sysHospitalManagerList;
-          let examineTypeList = res.examineTypeList;
-          this.readyForm.hospitalList = sysHospitalManagerList;
-          this.readyForm.examineTypeList = examineTypeList;
-          this.alert.readyVisible = true;
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
-        }
+        let sysHospitalManagerList = res.sysHospitalManagerList;
+        let examineTypeList = res.examineTypeList;
+        this.readyForm.hospitalList = sysHospitalManagerList;
+        this.readyForm.examineTypeList = examineTypeList;
+        this.alert.readyVisible = true;
       });
     },
     //初始化数据来源切换
@@ -372,15 +332,7 @@ export default {
       }).then(data => {
         let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
-          this.readyForm.deptList = res;
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'success',
-            message: res,
-            duration: 1000
-          });
-        }
+        this.readyForm.deptList = res;
       });
     },
     //数据初始化保存
@@ -407,19 +359,11 @@ export default {
       }).then(data => {
         let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
-          this.$message({
-            type: 'success',
-            message: res,
-            duration: 1000
-          });
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
-        }
+        this.$message({
+          type: 'success',
+          message: res,
+          duration: 1000
+        });
         this.alert.readyVisible = false;
         this.readyForm.radio = 1;
         this.resetForm('readyForm');
@@ -444,26 +388,18 @@ export default {
       }).then(data => {
         let returnCode = data.returnCode;
         let res = data.returnContent;
-        if(returnCode == '1'){
-          this.popupForm.hospitalID = res.hospitalID;
-          this.popupForm.hospitalName = res.hospitalName;
-          this.popupForm.parentDepID = res.parentDepID;
-          this.popupForm.parentDepName = res.parentDepName;
-          this.popupForm.depID = res.depID;
-          this.popupForm.depCode = res.depCode;
-          this.popupForm.depName = res.depName;
-          this.popupForm.phone = res.phone;
-          if (res.isPACS == '1') {
-            this.popupForm.checked = true;
-          }else{
-            this.popupForm.checked = false;
-          }
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: res,
-            duration: 1000
-          });
+        this.popupForm.hospitalID = res.hospitalID;
+        this.popupForm.hospitalName = res.hospitalName;
+        this.popupForm.parentDepID = res.parentDepID;
+        this.popupForm.parentDepName = res.parentDepName;
+        this.popupForm.depID = res.depID;
+        this.popupForm.depCode = res.depCode;
+        this.popupForm.depName = res.depName;
+        this.popupForm.phone = res.phone;
+        if (res.isPACS == '1') {
+          this.popupForm.checked = true;
+        }else{
+          this.popupForm.checked = false;
         }
       });
       this.other.title = '编辑';
@@ -492,20 +428,12 @@ export default {
       }).then(data => {
         let returnCode = data.returnCode;
         let msg = data.returnContent;
-        if(returnCode == '1'){
-          this.$message({
-            type: 'success',
-            message: msg,
-            duration: 1000
-          });
-          this.queryData(true);
-        }else if(returnCode == '0'){
-          this.$message({
-            type: 'error',
-            message: msg,
-            duration: 1000
-          });
-        }
+        this.$message({
+          type: 'success',
+          message: msg,
+          duration: 1000
+        });
+        this.queryData(true);
       });
       //清空弹框数据
       this.resetForm('popupForm');
@@ -526,21 +454,13 @@ export default {
         }).then(data => {
           let returnCode = data.returnCode;
           let msg = data.returnContent;
-          if(returnCode == '1'){
-            this.$message({
-              type: 'success',
-              message: msg,
-              duration: 1000
-            });
-            this.queryData(true);
-            this.findTree();
-          }else if(returnCode == '0'){
-            this.$message({
-              type: 'error',
-              message: msg,
-              duration: 1000
-            });
-          }
+          this.$message({
+            type: 'success',
+            message: msg,
+            duration: 1000
+          });
+          this.queryData(true);
+          this.findTree();
         });
       });
     },
