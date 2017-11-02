@@ -61,7 +61,7 @@
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-message"></i>
+              <i class="el-icon-setting"></i>
               <span slot="title">模板设置</span>
             </template>
             <el-menu-item index="/commonSymbol">
@@ -87,18 +87,18 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
-              <i class="el-icon-message"></i>
+              <i class="el-icon-setting"></i>
               <span slot="title">其他设置</span>
             </template>
-            <el-menu-item index="3-1">
+            <el-menu-item index="/checkPart">
               <i class="el-icon-menu"></i>
               <span slot="title">检查部位</span>
             </el-menu-item>
-            <el-menu-item index="3-2">
+            <el-menu-item index="/reportSettings">
               <i class="el-icon-menu"></i>
               <span slot="title">报告项设置</span>
             </el-menu-item>
-            <el-menu-item index="3-3">
+            <el-menu-item index="/userDefined">
               <i class="el-icon-menu"></i>
               <span slot="title">自定义项</span>
             </el-menu-item>

@@ -99,6 +99,25 @@ const whiteLexicon = resolve => {
   })
 }
 
+//系统工作站->其他设置->检查部位
+const checkPart = resolve => {
+  require.ensure(['../components/system/other/checkPart.vue'], () => {
+    resolve(require('../components/system/other/checkPart.vue'));
+  });
+}
+//系统工作站->其他设置->报告项设置
+const reportSettings = resolve => {
+  require.ensure(['../components/system/other/reportSettings.vue'], () => {
+    resolve(require('../components/system/other/reportSettings.vue'));
+  });
+}
+//系统工作站->其他设置->自定义项
+const userDefined = resolve => {
+  require.ensure(['../components/system/other/userDefined.vue'], () => {
+    resolve(require('../components/system/other/userDefined.vue'));
+  });
+}
+
 let system=[
   {	path: '/',						          component: onCampus, 	              name: '插件管理'},
   {	path: '/pluginManagement',  	  component: pluginManagement,        name: '地区管理'},
@@ -108,15 +127,17 @@ let system=[
   {	path: '/user',					        component: user,      				      name: '用户管理'},
   {	path: '/informationSystem',		  component: informationSystem,       name: '系统字典'},
   {	path: '/informationDepartment',	component: informationDepartment,   name: '科室字典'},
-  {	path: '/systemParameters',		  component: systemParameters,      	name: '院区管理'},
+  {	path: '/systemParameters',		  component: systemParameters,      	name: '系统参数'},
   {	path: '/departmentParams',		  component: departmentParams,      	name: '科室参数'},
   { path: '/logs',                  component: logs,                    name: '日志管理'},
-
   { path: '/commonSymbol',          component: commonSymbol,            name: '常用符号'},
   { path: '/keyPhrase',             component: keyPhrase,               name: '关键短语'},
   { path: '/templateClassify',      component: templateClassify,        name: '模板分类'},
   { path: '/whiteTemplate',         component: whiteTemplate,           name: '书写模板'},
   {	path: '/whiteLexicon',					component: whiteLexicon,      		  name: '书写词汇'},
+  {	path: '/checkPart',					    component: checkPart,      		      name: '检查部位'},
+  {	path: '/reportSettings',				component: reportSettings,      		name: '报告项设置'},
+  {	path: '/userDefined',					  component: userDefined,      		    name: '自定义项'},
 ]
 
 export default system;

@@ -115,7 +115,6 @@ var ckq={
 	sysTemplateClassupdateState: title + 'systemmanagement/templatesetting/sysTemplateClass/updateState',//模板管理-启用状态
 	sysTemplateClassdelete: title + 'systemmanagement/templatesetting/sysTemplateClass/delete',//模板管理-删除
 
-
 	sysWordBasefindTree: title + 'systemmanagement/templatesetting/sysWordBase/findTree',//书写词库-左侧树形
 	sysWordBasefindPage: title + 'systemmanagement/templatesetting/sysWordBase/findPage',//书写词库-列表
 	sysWordBaseinsertReady: title + 'systemmanagement/templatesetting/sysWordBase/insertReady',//书写词库-新建初始化
@@ -124,6 +123,43 @@ var ckq={
 	sysWordBaseupdate: title + 'systemmanagement/templatesetting/sysWordBase/update',//书写词库-编辑保存
 	sysWordBaseupdateState: title + 'systemmanagement/templatesetting/sysWordBase/updateState',//书写词库-启用状态
 	sysWordBasedelete: title + 'systemmanagement/templatesetting/sysWordBase/delete',//书写词库-删除
+
+	sysWriteTemplatefindTree: title + 'systemmanagement/templatesetting/sysWriteTemplate/findTree',//书写模板-左侧树形
+	sysWriteTemplatefindPage: title + 'systemmanagement/templatesetting/sysWriteTemplate/findPage',//书写模板-列表
+	sysWriteTemplateinsertReady: title + 'systemmanagement/templatesetting/sysWriteTemplate/insertReady',//书写模板-新建初始化
+	sysWriteTemplateinsert: title + 'systemmanagement/templatesetting/sysWriteTemplate/insert',//书写模板-新建保存
+	sysWriteTemplateupdateQuery: title + 'systemmanagement/templatesetting/sysWriteTemplate/updateQuery',//书写模板-编辑
+	sysWriteTemplateupdate: title + 'systemmanagement/templatesetting/sysWriteTemplate/update',//书写模板-编辑保存
+	sysWriteTemplateupdateState: title + 'systemmanagement/templatesetting/sysWriteTemplate/updateState',//书写模板-启用状态
+	sysWriteTemplatedelete: title + 'systemmanagement/templatesetting/sysWriteTemplate/delete',//书写模板-删除
+
+	sysExamineBodyPartfindTree: title + 'systemmanagement/othersetting/sysExamineBodyPart/findTree',//检查部位-左侧树形
+	sysExamineBodyPartfindPage: title + 'systemmanagement/othersetting/sysExamineBodyPart/findPage',//检查部位-列表
+	sysExamineBodyPartinsertReady: title + 'systemmanagement/othersetting/sysExamineBodyPart/insertReady',//检查部位-新建初始化
+	sysExamineBodyPartinsert: title + 'systemmanagement/othersetting/sysExamineBodyPart/insert',//检查部位-新建保存
+	sysExamineBodyPartupdateQuery: title + 'systemmanagement/othersetting/sysExamineBodyPart/updateQuery',//检查部位-编辑初始化
+	sysExamineBodyPartupdate: title + 'systemmanagement/othersetting/sysExamineBodyPart/update',//检查部位-编辑保存
+	sysExamineBodyPartupdateState: title + 'systemmanagement/othersetting/sysExamineBodyPart/updateState',//检查部位-启用状态
+	sysExamineBodyPartdelete: title + 'systemmanagement/othersetting/sysExamineBodyPart/delete',//检查部位-删除
+	sysExamineBodyPartloadPingYin: title + 'systemmanagement/othersetting/sysExamineBodyPart/loadPingYin',//检查部位-加载拼音
+
+	sysReportItemfindPage: title + 'systemmanagement/othersetting/sysReportItem/findPage',//报告项设置-列表
+	sysReportIteminsertReady: title + 'systemmanagement/othersetting/sysReportItem/insertReady',//报告项设置-新建初始化
+	sysReportIteminsert: title + 'systemmanagement/othersetting/sysReportItem/insert',//报告项设置-新建保存
+	sysReportItemupdateQuery: title + 'systemmanagement/othersetting/sysReportItem/updateQuery',//报告项设置-编辑初始化
+	sysReportItemupdate: title + 'systemmanagement/othersetting/sysReportItem/update',//报告项设置-编辑保存
+	sysReportItemupdateState: title + 'systemmanagement/othersetting/sysReportItem/updateState',//报告项设置-启用状态
+	sysReportItemdelete: title + 'systemmanagement/othersetting/sysReportItem/delete',//报告项设置-删除
+	sysReportItemloadExamineItem: title + 'systemmanagement/othersetting/sysReportItem/loadExamineItem',//报告项设置-加载检查项目
+
+	customItemfindTree: title + 'systemmanagement/othersetting/customItem/findTree',//自定义项-左侧树形
+	customItemfindPage: title + 'systemmanagement/othersetting/customItem/findPage',//自定义项-列表
+	customIteminsertReady: title + 'systemmanagement/othersetting/customItem/insertReady',//自定义项-新建初始化
+	customIteminsert: title + 'systemmanagement/othersetting/customItem/insert',//自定义项-新建保存
+	customItemupdateQuery: title + 'systemmanagement/othersetting/customItem/updateQuery',//自定义项-编辑初始化
+	customItemupdate: title + 'systemmanagement/othersetting/customItem/update',//自定义项-编辑保存
+	customItemdelete: title + 'systemmanagement/othersetting/customItem/delete',//自定义项-删除
+
 }
 
 

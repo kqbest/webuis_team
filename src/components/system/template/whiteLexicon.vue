@@ -271,7 +271,6 @@ export default {
         this.popupForm.wordBaseID = info.wordBaseID;
         this.popupForm.wordBaseGroup = info.wordBaseGroup;
         this.popupForm.wordBaseName = info.wordBaseName;
-        console.log(info.examineItem);
         this.popupForm.examineItem = info.examineItem.split(',');
       });
       this.other.title = '编辑';

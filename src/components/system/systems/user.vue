@@ -169,7 +169,7 @@
           <el-row>
             <el-col :span="24">
               <el-form-item label="手写签名:" prop="roleDesc">
-                <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                <el-upload action="" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
                   <i class="el-icon-plus"></i>
                 </el-upload>
                 <el-dialog v-model="obj.upload.dialogVisible" size="tiny">
