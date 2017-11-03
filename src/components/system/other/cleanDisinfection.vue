@@ -1,5 +1,5 @@
 <template>
-  <section class="userDefined">
+  <section class="cleanDisinfection">
     <nav class="pub_select">
       <el-form :model="navForm" ref="navForm" label-width="86px">
         <el-row>
@@ -19,14 +19,14 @@
         <el-breadcrumb separator="/">
           <el-breadcrumb-item>系统管理</el-breadcrumb-item>
           <el-breadcrumb-item>其他设置</el-breadcrumb-item>
-          <el-breadcrumb-item>自定义项</el-breadcrumb-item>
+          <el-breadcrumb-item>清洗消毒</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <div>
         <el-button class="mlem" type="primary" @click="addInfo">新建</el-button>
         <el-button class="mlem" @click="queryData">刷新</el-button>
         <span class="mlem">
-            自定义项共<font class='pub_count'>{{ other.totalCount }}</font>条
+            清洗消毒共<font class='pub_count'>{{ other.totalCount }}</font>条
         </span>
       </div>
     </section>
@@ -36,18 +36,22 @@
         <el-table-column label="操作" width="150" align="center">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="编辑" :disabled="true" placement="top-start">
-              <el-button size="mini" :plain="true" type="success" icon="edit" @click="editInfo(scope.row.customItemID)"></el-button>
+              <el-button size="mini" :plain="true" type="success" icon="edit" @click="editInfo(scope.row.sterilizeID)"></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="删除" :disabled="true" placement="top-start">
-              <el-button size="mini" :plain="true" type="danger" icon="delete" @click="deleted(scope.row.customItemID)"></el-button>
+              <el-button size="mini" :plain="true" type="danger" icon="delete" @click="deleted(scope.row.sterilizeID)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="customItemID" label="记录编号" width="180" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="examineType" label="检查类型" width="180" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="examineItemName" label="检查项目" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="fieldName" label="字段名称" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="sterilizeID" label="序号" width="180" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="fieldName" label="字段名称" width="180" align="center" show-overflow-tooltip></el-table-column>
         <el-table-column prop="fieldTypeName" label="数据类型" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="fieldUnit" label="单位" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column label="启用状态" align="center" width="100">
+          <template scope="scope">
+            <span class="this_enable" @click="enabledState(scope.row.sterilizeID,scope.row.state)">{{ scope.row.stateName }}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </section>
     <!-- 弹框 -->
@@ -61,24 +65,22 @@
               </el-form-item>
             </el-col>
             <el-col :span="11">
-              <el-form-item label="检查项目:" prop="examineItem">
-                <el-select v-model="popupForm.examineItem" clearable placeholder="请选择">
-                  <el-option v-for="item in array.examineItemList" :key="item.depDataDicValueName" :label="item.depDataDicValueName" :value="item.depDataDicValueName"></el-option>
-                </el-select>
+              <el-form-item label="字段名称:" prop="fieldName">
+                <el-input v-model="popupForm.fieldName"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="11">
+              <el-form-item label="单位:" prop="fieldUnit">
+                <el-input v-model="popupForm.fieldUnit"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="11">
               <el-form-item label="数据类型:" prop="fieldType">
                 <el-select v-model="popupForm.fieldType" placeholder="请选择" @change="whichShow">
                   <el-option v-for="item in array.dataTypeList" :key="item.dataDicValueCode" :label="item.dataDicValueName" :value="item.dataDicValueCode"></el-option>
                 </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="11">
-              <el-form-item label="字段名称:" prop="fieldName">
-                <el-input v-model="popupForm.fieldName"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -149,22 +151,20 @@ export default {
         hospitalID: '',
         departmentID: '',
         examineType: '',
-        examineItem: '',
-        fieldType: '',//数据类型
         fieldName: '',//字段名称
+        fieldUnit: '',//单位
+        fieldType: '',//数据类型
         defaultV: '',//默认值
         dateTimeType: '',//时间格式
-        customValue: '',//消毒值
-        customItemID: ''
+        sterilizeValue: '',//下拉组合
+        sterilizeID: ''
       },
       rules: {
-        examineType:[{ required: true, message: '检查类型不能为空', trgger: 'blur' }],
         fieldType:[{ required: true, message: '请选择数据类型', trgger: 'blur' }],
         fieldName:[{ required: true, message: '请输入字段名称', trgger: 'blur' }]
       },
       array: {
         tableData: [], //列表数据
-        examineItemList: [], //检查项目数据
         dataTypeList: [], //数据类型数据
         timeFormatList: [], //时间格式数据
         tableData1: [] //列表数据
@@ -189,7 +189,7 @@ export default {
   methods: {
     //加载树形
     findTree() {
-      this.$http.get(this.$location.customItemfindTree).then(data => {
+      this.$http.get(this.$location.cleanSterilizefindTree).then(data => {
         let res = data.returnContent;
         this.array.examineTypeList = res || [];
         //默认选中第一个
@@ -202,7 +202,7 @@ export default {
     //加载列表
     queryData(can) {
       can ? (this.pageStart = 0) : this.pageStart ++;
-      this.$http.get(this.$location.customItemfindPage,{
+      this.$http.get(this.$location.cleanSterilizefindPage,{
         params:{
           examineType: this.navForm.examineType,
           pageStart: this.pageStart
@@ -213,7 +213,7 @@ export default {
         this.popupForm.hospitalID = res.hospitalID;
         this.popupForm.departmentID = res.departmentID;
         this.popupForm.examineType = res.examineType;
-        let list = res.customItemList;
+        let list = res.cleanSterilizeList;
         if(can){
           this.array.tableData = list || [];
         }else{
@@ -223,12 +223,7 @@ export default {
     },
     //新建
     addInfo() {
-      this.$http.get(this.$location.customIteminsertReady,{
-        params: {
-          examineType: this.navForm.examineType
-        }
-      }).then(data => {
-        this.array.examineItemList = data.returnContent.examineItemList || [];
+      this.$http.get(this.$location.cleanSterilizeinsertReady).then(data => {
         this.array.dataTypeList = data.returnContent.dataTypeList || [];
         this.array.timeFormatList = data.returnContent.timeFormatList || [];
       });
@@ -249,17 +244,17 @@ export default {
             }
           });
         }
-        this.$http.get(this.$location.customIteminsert,{
+        this.$http.get(this.$location.cleanSterilizeinsert,{
           params: {
             hospitalID: this.popupForm.hospitalID,
             departmentID: this.popupForm.departmentID,
             examineType: this.popupForm.examineType,
-            examineItem: this.popupForm.examineItem,
             fieldName: this.popupForm.fieldName,
+            fieldUnit: this.popupForm.fieldUnit,
             fieldType: this.popupForm.fieldType,
             defaultV: this.popupForm.defaultV,
             dateTimeType: this.popupForm.dateTimeType,
-            customValue: arr
+            sterilizeValue: arr
           }
         }).then(data => {
           let msg = data.returnContent;
@@ -273,7 +268,7 @@ export default {
           this.other.isShow = '4';
         });
       } else { //编辑保存
-        let thisID = this.popupForm.customItemID;
+        let thisID = this.popupForm.sterilizeID;
         let arr = '';
         if (this.array.tableData1.length > 0) {
           this.array.tableData1.forEach((k, i) => {
@@ -284,18 +279,18 @@ export default {
             }
           });
         }
-        this.$http.get(this.$location.customItemupdate,{
+        this.$http.get(this.$location.cleanSterilizeupdate,{
           params: {
-            customItemID: this.popupForm.customItemID,
+            sterilizeID: this.popupForm.sterilizeID,
             hospitalID: this.popupForm.hospitalID,
             departmentID: this.popupForm.departmentID,
             examineType: this.popupForm.examineType,
-            examineItem: this.popupForm.examineItem,
             fieldName: this.popupForm.fieldName,
+            fieldUnit: this.popupForm.fieldUnit,
             fieldType: this.popupForm.fieldType,
             defaultV: this.popupForm.defaultV,
             dateTimeType: this.popupForm.dateTimeType,
-            customValue: arr
+            sterilizeValue: arr
           }
         }).then(data => {
           let msg = data.returnContent;
@@ -311,34 +306,34 @@ export default {
       }
     },
     //编辑
-    editInfo(customItemID) {
+    editInfo(sterilizeID) {
       this.array.tableData1 = [];
-      this.$http.get(this.$location.customItemupdateQuery,{
+      this.$http.get(this.$location.cleanSterilizeupdateQuery,{
         params: {
-          customItemID: customItemID
+          sterilizeID: sterilizeID
         }
       }).then(data => {
         let res = data.returnContent;
         this.array.examineItemList = res.examineItemList || [];
-        let info = res.customItem;
-        this.popupForm.customItemID = customItemID;
+        let info = res.cleanSterilize;
+        this.popupForm.sterilizeID = sterilizeID;
         this.popupForm.hospitalID = info.hospitalID;
         this.popupForm.departmentID = info.departmentID;
         this.popupForm.examineType = info.examineType;
-        this.popupForm.examineItem = info.examineItem;
         this.popupForm.fieldName = info.fieldName;
+        this.popupForm.fieldUnit = info.fieldUnit;
         this.popupForm.fieldType = info.fieldType.toString();
         this.popupForm.defaultV = info.defaultV;
         this.popupForm.dateTimeType = info.dateTimeType;
-        if (res.customItemValueList.length > 0) {
-          res.customItemValueList.forEach((k, i) => {
+        if (res.cleanSterilizeValueList.length > 0) {
+          res.cleanSterilizeValueList.forEach((k, i) => {
             if (k.defaultValue == '0') {
               k.defaultValue = false;
             }else if(k.defaultValue == '1'){
               k.defaultValue = true;
             }
             let row = {
-              input: k.customValue,
+              input: k.sterilizeValue,
               check: k.defaultValue
             };
             this.array.tableData1.push(row);
@@ -349,16 +344,47 @@ export default {
       this.other.isAdd = false;
       this.alert.popupVisible = true;
     },
+    //启用状态
+    enabledState(sterilizeID, state) {
+      let stateName;
+      if (state == "0") {
+        state = "1";
+        stateName = "启用";
+      } else if (state == "1") {
+        state = "0";
+        stateName = "停用";
+      }
+      this.$confirm(`是否确认${stateName}?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.$http.get(this.$location.cleanSterilizeupdateState, {
+          params: {
+            sterilizeID: sterilizeID,
+            state: state
+          }
+        }).then(data => {
+          let msg = data.returnContent;
+          this.$message({
+            type: "success",
+            message: msg,
+            duration: 1000
+          });
+          this.queryData(true);
+        });
+      }).catch(() => {});
+    },
     //删除
-    deleted(customItemID) {
+    deleted(sterilizeID) {
       this.$confirm("是否确认删除该条信息?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        this.$http.get(this.$location.customItemdelete, {
+        this.$http.get(this.$location.cleanSterilizedelete, {
           params: {
-            customItemID: customItemID
+            sterilizeID: sterilizeID
           }
         }).then(data => {
           let msg = data.returnContent;
@@ -406,7 +432,7 @@ export default {
 </script>
 
 <style lang='less'>
-.userDefined{
+.cleanDisinfection{
   display: flex;
   flex-direction: column;
   width: 100%;

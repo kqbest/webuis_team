@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
     <header class="this_header"></header>
     <article class="this_section">
       <nav class="this_nav">
@@ -106,19 +105,19 @@
               <i class="el-icon-menu"></i>
               <span slot="title">样图管理</span>
             </el-menu-item>
-            <el-menu-item index="3-5">
+            <el-menu-item index="/endoscope">
               <i class="el-icon-menu"></i>
               <span slot="title">内镜信息</span>
             </el-menu-item>
-            <el-menu-item index="3-6">
+            <el-menu-item index="/cleanDisinfection">
               <i class="el-icon-menu"></i>
               <span slot="title">清洗消毒</span>
             </el-menu-item>
-            <el-menu-item index="3-7">
+            <el-menu-item index="/measurement">
               <i class="el-icon-menu"></i>
               <span slot="title">测值管理</span>
             </el-menu-item>
-            <el-menu-item index="3-8">
+            <el-menu-item index="/templateBinding">
               <i class="el-icon-menu"></i>
               <span slot="title">模板绑定</span>
             </el-menu-item>

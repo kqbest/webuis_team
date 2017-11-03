@@ -1,18 +1,18 @@
 <template>
-  <section class="reportSettings">
+  <section class="templateBinding">
     <section class="pub_hr">
       <div>
         <el-breadcrumb separator="/">
           <el-breadcrumb-item>系统管理</el-breadcrumb-item>
           <el-breadcrumb-item>其他设置</el-breadcrumb-item>
-          <el-breadcrumb-item>报告项设置</el-breadcrumb-item>
+          <el-breadcrumb-item>模板绑定</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <div>
         <el-button class="mlem" type="primary" @click="addInfo">新建</el-button>
         <el-button class="mlem" @click="queryData">刷新</el-button>
         <span class="mlem">
-            报告项设置共<font class='pub_count'>{{ other.totalCount }}</font>条
+            模板绑定共<font class='pub_count'>{{ other.totalCount }}</font>条
         </span>
       </div>
     </section>
@@ -22,38 +22,43 @@
         <el-table-column label="操作" width="150" align="center">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="编辑" :disabled="true" placement="top-start">
-              <el-button size="mini" :plain="true" type="success" icon="edit" @click="editInfo(scope.row)"></el-button>
+              <el-button size="mini" :plain="true" type="success" icon="edit" @click="editInfo(scope.row.templateBindID)"></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="删除" :disabled="true" placement="top-start">
-              <el-button size="mini" :plain="true" type="danger" icon="delete" @click="deleted(scope.row.reportItemID)"></el-button>
+              <el-button size="mini" :plain="true" type="danger" icon="delete" @click="deleted(scope.row.templateBindID)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
+        <el-table-column prop="templateTypeName" label="模板类型" width="180" align="center" show-overflow-tooltip></el-table-column>
         <el-table-column prop="examineTypeName" label="检查类型" width="180" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="examineItemName" label="检查项目" width="180" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="contentItemName" label="内容项" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="examineItemName" label="检查项目" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="templateName" label="模板名称" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="imageCount" label="图片数量" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column label="默认模板" align="center" width="100">
+          <template scope="scope">
+            <el-checkbox v-model="scope.row.defaultTemplate" disabled></el-checkbox>
+          </template>
+        </el-table-column>
         <el-table-column label="启用状态" align="center" width="100">
           <template scope="scope">
-            <span class="this_enable" @click="enabledState(scope.row.reportItemID,scope.row.state)">{{ scope.row.stateName }}</span>
+            <span class="this_enable" @click="enabledState(scope.row.templateBindID,scope.row.state)">{{ scope.row.stateName }}</span>
           </template>
         </el-table-column>
       </el-table>
     </section>
     <!-- 弹框 -->
     <section class="this_popup">
-      <el-dialog :title="other.title" size="tiny" top="30%" :visible.sync="alert.popupVisible" :before-close="closePopup">
+      <el-dialog :title="other.title" size="small" top="30%" :visible.sync="alert.popupVisible" :before-close="closePopup">
         <el-form :model="popupForm" ref="popupForm" label-width="120px" class="demo-ruleForm" :rules="rules">
           <el-row>
-            <el-col :span="22">
+            <el-col :span="11">
               <el-form-item label="检查类型:" prop="examineType">
                 <el-select v-model="popupForm.examineType" clearable placeholder="请选择" @change="loadExamineItem">
                   <el-option v-for="item in array.examineTypeList" :key="item.depDataDicValueName" :label="item.depDataDicValueName" :value="item.depDataDicValueName"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="22">
+            <el-col :span="11">
               <el-form-item label="检查项目:" prop="examineItem">
                 <el-select v-model="popupForm.examineItem" clearable placeholder="请选择">
                   <el-option v-for="item in array.examineItemList" :key="item.depDataDicValueName" :label="item.depDataDicValueName" :value="item.depDataDicValueName"></el-option>
@@ -62,12 +67,29 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="22">
-              <el-form-item label="内容项:" prop="contentItem">
-                <el-select v-model="popupForm.contentItem" multiple placeholder="请选择">
-                  <el-option v-for="item in array.contentItemList" :key="item.dataDicValueName" :label="item.dataDicValueName" :value="item.dataDicValueName"></el-option>
+            <el-col :span="11">
+              <el-form-item label="模板类型:" prop="templateType">
+                <el-select v-model="popupForm.templateType" clearable placeholder="请选择" @change="loadTemplate">
+                  <el-option v-for="item in array.templateTypeList" :key="item.dataDicValueCode" :label="item.dataDicValueName" :value="item.dataDicValueCode"></el-option>
                 </el-select>
               </el-form-item>
+            </el-col>
+            <el-col :span="11">
+              <el-form-item label="图片数量:" prop="imageCount">
+                <el-input v-model="popupForm.imageCount"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="11">
+              <el-form-item label="模板名称:" prop="templateName">
+                <el-select v-model="popupForm.templateName" clearable placeholder="请选择">
+                  <el-option v-for="item in array.templateNameList" :key="item" :label="item" :value="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="11" class="pd10_48">
+              <el-checkbox v-model="popupForm.defaultTemplate">默认模板</el-checkbox>
             </el-col>
           </el-row>
         </el-form>
@@ -85,31 +107,30 @@
 export default {
   data() {
     return {
+      navForm: {
+        examineType: ''
+      },
       popupForm: {
         examineType: '',
         examineItem: '',
-        contentItem: [],
-        reportItemID: ''
+        templateType: '',//模板类型
+        imageCount: '',//图片数量
+        templateName: '',//模板名称
+        defaultTemplate: '',//默认模板
+        templateBindID: ''
       },
       rules: {
         examineType:[{ required: true, message: '请选择检查类型', trgger: 'blur' }],
-        contentItem:[{
-          trgger: 'blur',
-          validator: (rule, value, callback) => {
-            console.log(value);
-            if (value.length > 0) {
-              callback();
-            } else {
-              callback(new Error('请选择检查类型'));
-            }
-          }
-        }]
+        templateType:[{ required: true, message: '请选择模板类型', trgger: 'blur' }],
+        imageCount:[{ required: true, message: '图片数量不能为空', trgger: 'blur' }],
+        templateName:[{ required: true, message: '请选择模板名称', trgger: 'blur' }]
       },
       array: {
         tableData: [], //列表数据
         examineTypeList: [], //检查类型数据
         examineItemList: [], //检查项目数据
-        contentItemList: [] //内容项数据
+        templateTypeList: [], //模板类型数据
+        templateNameList: [] //模板名称数据
       },
       obj: {},
       other: {
@@ -131,14 +152,23 @@ export default {
     //加载列表
     queryData(can) {
       can ? (this.pageStart = 0) : this.pageStart ++;
-      this.$http.get(this.$location.sysReportItemfindPage,{
+      this.$http.get(this.$location.sysTemplateBindfindPage,{
         params:{
           pageStart: this.pageStart
         }
       }).then(data => {
         let res = data.returnContent;
         this.other.totalCount = res.totalCount;
-        let list = res.sysReportItemList;
+        let list = res.sysTemplateBindList;
+        if (list.length > 0) {
+          list.forEach((k, i) => {
+            if (k.defaultTemplate == '1') {
+              k.defaultTemplate = true;
+            } else if (k.defaultTemplate == '0') {
+              k.defaultTemplate = false;
+            }
+          });
+        }
         if(can){
           this.array.tableData = list || [];
         }else{
@@ -148,9 +178,9 @@ export default {
     },
     //新建
     addInfo() {
-      this.$http.get(this.$location.sysReportIteminsertReady).then(data => {
+      this.$http.get(this.$location.sysTemplateBindinsertReady).then(data => {
         this.array.examineTypeList = data.returnContent.examineTypeList || [];
-        this.array.contentItemList = data.returnContent.contentItemList || [];
+        this.array.templateTypeList = data.returnContent.templateTypeList || [];
       });
       this.other.title = '新建';
       this.other.isAdd = true;
@@ -158,13 +188,14 @@ export default {
     },
     //保存
     infoSave(resolve) {
+      if (this.popupForm.defaultTemplate == true) {
+          this.popupForm.defaultTemplate = '1';
+        } else {
+          this.popupForm.defaultTemplate = '0';
+        }
       if (this.other.isAdd == true) { //新建保存
-        this.$http.get(this.$location.sysReportIteminsert,{
-          params: {
-            examineType: this.popupForm.examineType,
-            examineItem: this.popupForm.examineItem,
-            contentItem: this.popupForm.contentItem.join(',')
-          }
+        this.$http.get(this.$location.sysTemplateBindinsert,{
+          params: this.popupForm
         }).then(data => {
           let msg = data.returnContent;
           this.$message({
@@ -176,13 +207,8 @@ export default {
           this.queryData(true);
         });
       } else { //编辑保存
-        this.$http.get(this.$location.sysReportItemupdate,{
-          params: {
-            examineType: this.popupForm.examineType,
-            examineItem: this.popupForm.examineItem,
-            contentItem: this.popupForm.contentItem.join(','),
-            reportItemID: this.popupForm.reportItemID
-          }
+        this.$http.get(this.$location.sysTemplateBindupdate,{
+          params: this.popupForm
         }).then(data => {
           let msg = data.returnContent;
           this.$message({
@@ -196,28 +222,37 @@ export default {
       }
     },
     //编辑
-    editInfo(dataList) {
-      this.$http.get(this.$location.sysReportItemupdateQuery,{
+    editInfo(templateBindID) {
+      this.$http.get(this.$location.sysTemplateBindupdateQuery,{
         params: {
-          reportItemID: dataList.reportItemID
+          templateBindID: templateBindID
         }
       }).then(data => {
         let res = data.returnContent;
-        this.array.examineTypeList = res.examineTypeList || [];
+        this.array.examineTypeList = data.returnContent.examineTypeList || [];
         this.array.examineItemList = res.examineItemList || [];
-        this.array.contentItemList = res.contentItemList || [];
-        let info = res.sysReportItem;
+        this.array.templateTypeList = data.returnContent.templateTypeList || [];
+        this.array.templateList = data.returnContent.templateList || [];
+        let info = res.sysTemplateBind;
         this.popupForm.examineType = info.examineType;
         this.popupForm.examineItem = info.examineItem;
-        this.popupForm.contentItem = info.contentItem.split(',');
-        this.popupForm.reportItemID = dataList.reportItemID;
+        this.popupForm.templateType = info.templateType;//模板类型
+        this.popupForm.imageCount = info.imageCount.toString();//图片数量
+        this.popupForm.templateName = info.templateName;//模板名称
+        if (info.defaultTemplate == '1') {
+          info.defaultTemplate = true;
+        } else if (k.defaultTemplate == '0') {
+          info.defaultTemplate = false;
+        }
+        this.popupForm.defaultTemplate = info.defaultTemplate;//默认模板
+        this.popupForm.templateBindID = templateBindID;
       });
       this.other.title = '编辑';
       this.other.isAdd = false;
       this.alert.popupVisible = true;
     },
     //启用状态
-    enabledState(reportItemID, state) {
+    enabledState(templateBindID, state) {
       let stateName;
       if (state == "0") {
         state = "1";
@@ -231,9 +266,9 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        this.$http.get(this.$location.sysReportItemupdateState, {
+        this.$http.get(this.$location.sysTemplateBindupdateState, {
           params: {
-            reportItemID: reportItemID,
+            templateBindID: templateBindID,
             state: state
           }
         }).then(data => {
@@ -248,15 +283,15 @@ export default {
       }).catch(() => {});
     },
     //删除
-    deleted(reportItemID) {
+    deleted(templateBindID) {
       this.$confirm("是否确认删除该条信息?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        this.$http.get(this.$location.sysReportItemdelete, {
+        this.$http.get(this.$location.sysTemplateBinddelete, {
           params: {
-            reportItemID: reportItemID
+            templateBindID: templateBindID
           }
         }).then(data => {
           let msg = data.returnContent;
@@ -271,13 +306,22 @@ export default {
     },
     //加载检查项目
     loadExamineItem() {
-      this.$http.get(this.$location.sysReportItemloadExamineItem,{
+      this.$http.get(this.$location.sysTemplateBindloadExamineItem,{
         params: {
           examineType: this.popupForm.examineType
         }
       }).then(data => {
-        let res = data.returnContent;
-        this.array.examineItemList = data.returnContent.examineItemList || [];
+        this.array.examineItemList = data.returnContent.examineItemList;
+      });
+    },
+    //加载模板名称
+    loadTemplate() {
+      this.$http.get(this.$location.sysTemplateBindloadTemplate,{
+        params: {
+          templateType: this.popupForm.templateType
+        }
+      }).then(data => {
+        this.array.templateNameList = data.returnContent;
       });
     },
     //关闭弹框清除数据
@@ -286,7 +330,8 @@ export default {
       this.resetForm("popupForm");
       this.array.examineTypeList = [];
       this.array.examineItemList = [];
-      this.array.contentItemList = [];
+      this.array.templateTypeList = [];
+      this.array.templateNameList = [];
       this.alert.popupVisible = false;
     }
   }
@@ -294,7 +339,7 @@ export default {
 </script>
 
 <style lang='less'>
-.reportSettings{
+.templateBinding{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -319,6 +364,12 @@ export default {
         color: green;
         cursor: pointer;
       }
+    }
+  }
+  .this_popup{
+    .pd10_48{
+      padding-top: 10px;
+      padding-left: 48px;
     }
   }
 }

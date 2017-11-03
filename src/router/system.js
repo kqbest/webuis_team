@@ -117,6 +117,30 @@ const userDefined = resolve => {
     resolve(require('../components/system/other/userDefined.vue'));
   });
 }
+//系统工作站->其他设置->内镜信息
+const endoscope = resolve => {
+  require.ensure(['../components/system/other/endoscope.vue'], () => {
+    resolve(require('../components/system/other/endoscope.vue'));
+  });
+}
+//系统工作站->其他设置->清洗消毒
+const cleanDisinfection = resolve => {
+  require.ensure(['../components/system/other/cleanDisinfection.vue'], () => {
+    resolve(require('../components/system/other/cleanDisinfection.vue'));
+  });
+}
+//系统工作站->其他设置->测值管理
+const measurement = resolve => {
+  require.ensure(['../components/system/other/measurement.vue'], () => {
+    resolve(require('../components/system/other/measurement.vue'));
+  });
+}
+//系统工作站->其他设置->模板绑定
+const templateBinding = resolve => {
+  require.ensure(['../components/system/other/templateBinding.vue'], () => {
+    resolve(require('../components/system/other/templateBinding.vue'));
+  });
+}
 
 let system=[
   {	path: '/',						          component: onCampus, 	              name: '插件管理'},
@@ -138,6 +162,10 @@ let system=[
   {	path: '/checkPart',					    component: checkPart,      		      name: '检查部位'},
   {	path: '/reportSettings',				component: reportSettings,      		name: '报告项设置'},
   {	path: '/userDefined',					  component: userDefined,      		    name: '自定义项'},
+  {	path: '/endoscope',					    component: endoscope,      		      name: '内镜信息'},
+  {	path: '/cleanDisinfection',		  component: cleanDisinfection,       name: '清洗消毒'},
+  {	path: '/measurement',		        component: measurement,             name: '测值管理'},
+  {	path: '/templateBinding',		    component: templateBinding,         name: '模板绑定'},
 ]
 
 export default system;

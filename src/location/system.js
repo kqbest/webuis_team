@@ -160,6 +160,42 @@ var ckq={
 	customItemupdate: title + 'systemmanagement/othersetting/customItem/update',//自定义项-编辑保存
 	customItemdelete: title + 'systemmanagement/othersetting/customItem/delete',//自定义项-删除
 
+	endoscopeInformationfindTree: title + 'systemmanagement/othersetting/endoscopeInformation/findTree',//内镜信息-左侧树形
+	endoscopeInformationfindPage: title + 'systemmanagement/othersetting/endoscopeInformation/findPage',//内镜信息-列表
+	endoscopeInformationinsertReady: title + 'systemmanagement/othersetting/endoscopeInformation/insertReady',//内镜信息-新建初始化
+	endoscopeInformationinsert: title + 'systemmanagement/othersetting/endoscopeInformation/insert',//内镜信息-新建保存
+	endoscopeInformationupdateQuery: title + 'systemmanagement/othersetting/endoscopeInformation/updateQuery',//内镜信息-编辑初始化
+	endoscopeInformationupdate: title + 'systemmanagement/othersetting/endoscopeInformation/update',//内镜信息-编辑保存
+	endoscopeInformationupdateState: title + 'systemmanagement/othersetting/endoscopeInformation/updateState',//内镜信息-启用状态
+	endoscopeInformationdelete: title + 'systemmanagement/othersetting/endoscopeInformation/delete',//内镜信息-删除
+
+	cleanSterilizefindTree: title + 'systemmanagement/othersetting/cleanSterilize/findTree',//清洗消毒-左侧树形
+	cleanSterilizefindPage: title + 'systemmanagement/othersetting/cleanSterilize/findPage',//清洗消毒-列表
+	cleanSterilizeinsertReady: title + 'systemmanagement/othersetting/cleanSterilize/insertReady',//清洗消毒-新建初始化
+	cleanSterilizeinsert: title + 'systemmanagement/othersetting/cleanSterilize/insert',//清洗消毒-新建保存
+	cleanSterilizeupdateQuery: title + 'systemmanagement/othersetting/cleanSterilize/updateQuery',//清洗消毒-编辑初始化
+	cleanSterilizeupdate: title + 'systemmanagement/othersetting/cleanSterilize/update',//清洗消毒-编辑保存
+	cleanSterilizeupdateState: title + 'systemmanagement/othersetting/cleanSterilize/updateState',//清洗消毒-启用状态
+	cleanSterilizedelete: title + 'systemmanagement/othersetting/cleanSterilize/delete',//清洗消毒-删除
+
+	measureValuefindTree: title + 'systemmanagement/othersetting/measureValue/findTree',//测值管理-左侧树形
+	measureValuefindPage: title + 'systemmanagement/othersetting/measureValue/findPage',//测值管理-列表
+	measureValueinsertReady: title + 'systemmanagement/othersetting/measureValue/insertReady',//测值管理-新建初始化
+	measureValueinsert: title + 'systemmanagement/othersetting/measureValue/insert',//测值管理-新建保存
+	measureValueupdateQuery: title + 'systemmanagement/othersetting/measureValue/updateQuery',//测值管理-编辑初始化
+	measureValueupdate: title + 'systemmanagement/othersetting/measureValue/update',//测值管理-编辑保存
+	measureValuedelete: title + 'systemmanagement/othersetting/measureValue/delete',//测值管理-删除
+
+	sysTemplateBindfindPage: title + 'systemmanagement/othersetting/sysTemplateBind/findPage',//模板绑定-列表
+	sysTemplateBindinsertReady: title + 'systemmanagement/othersetting/sysTemplateBind/insertReady',//模板绑定-新建初始化
+	sysTemplateBindinsert: title + 'systemmanagement/othersetting/sysTemplateBind/insert',//模板绑定-新建保存
+	sysTemplateBindupdateQuery: title + 'systemmanagement/othersetting/sysTemplateBind/updateQuery',//模板绑定-编辑初始化
+	sysTemplateBindupdate: title + 'systemmanagement/othersetting/sysTemplateBind/update',//模板绑定-编辑保存
+	sysTemplateBindupdateState: title + 'systemmanagement/othersetting/sysTemplateBind/updateState',//模板绑定-启用状态
+	sysTemplateBinddelete: title + 'systemmanagement/othersetting/sysTemplateBind/delete',//模板绑定-删除
+	sysTemplateBindloadExamineItem: title + 'systemmanagement/othersetting/sysTemplateBind/loadExamineItem',//模板绑定-加载检查项目
+	sysTemplateBindloadTemplate: title + 'systemmanagement/othersetting/sysTemplateBind/loadTemplate',//模板绑定-加载模板名称
+
 }
 
 
