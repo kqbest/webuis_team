@@ -196,6 +196,19 @@ var ckq={
 	sysTemplateBindloadExamineItem: title + 'systemmanagement/othersetting/sysTemplateBind/loadExamineItem',//模板绑定-加载检查项目
 	sysTemplateBindloadTemplate: title + 'systemmanagement/othersetting/sysTemplateBind/loadTemplate',//模板绑定-加载模板名称
 
+	sysScheduleWeekfindTree: title + 'systemmanagement/othersetting/sysScheduleWeek/findTree',//预约设置-左侧树形
+	sysScheduleWeekfindWeekPage: title + 'systemmanagement/othersetting/sysScheduleWeek/findWeekPage',//预约设置-列表
+	sysScheduleWeekinsertWeekReady: title + 'systemmanagement/othersetting/sysScheduleWeek/insertWeekReady',//预约设置-新建初始化
+	sysScheduleWeekinsertWeek: title + 'systemmanagement/othersetting/sysScheduleWeek/insertWeek',//预约设置-新建保存
+	sysScheduleWeekupdateWeekQuery: title + 'systemmanagement/othersetting/sysScheduleWeek/updateWeekQuery',//预约设置-编辑初始化
+	sysScheduleWeekupdateWeek: title + 'systemmanagement/othersetting/sysScheduleWeek/updateWeek',//预约设置-编辑保存
+	sysScheduleWeekupdateWeekState: title + 'systemmanagement/othersetting/sysScheduleWeek/updateWeekState',//预约设置-启用状态
+	sysScheduleWeekdeleteWeek: title + 'systemmanagement/othersetting/sysScheduleWeek/deleteWeek',//预约设置-删除
+	sysScheduleWeekfindWeekDetailPage: title + 'systemmanagement/othersetting/sysScheduleWeek/findWeekDetailPage',//预约设置-明细
+	sysScheduleWeekupdateWeekDetail: title + 'systemmanagement/othersetting/sysScheduleWeek/updateWeekDetail',//预约设置-明细-编辑保存
+	sysScheduleWeekupdateWeekDetailState: title + 'systemmanagement/othersetting/sysScheduleWeek/updateWeekDetailState',//预约设置-明细-启用状态
+	sysScheduleWeekdeleteWeekDetail: title + 'systemmanagement/othersetting/sysScheduleWeek/deleteWeekDetail',//预约设置-明细-删除
+
 }
 
 

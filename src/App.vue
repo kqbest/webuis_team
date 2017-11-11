@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <header class="this_header"></header>
+    <header class="this_header">
+      <h1><img src="../src/assets/img/djlogo.png" alt="logo"/>超声信息系统</h1>
+    </header>
     <article class="this_section">
       <nav class="this_nav">
         <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
@@ -129,7 +131,7 @@
               <i class="el-icon-menu"></i>
               <span slot="title">结构化报告</span>
             </el-menu-item>
-            <el-menu-item index="3-11">
+            <el-menu-item index="/appointmentSetting">
               <i class="el-icon-menu"></i>
               <span slot="title">预约设置</span>
             </el-menu-item>
@@ -203,18 +205,34 @@ export default {
       })
     }
   }
-
 }
-
 </script>
+
 <style lang="less" scoped>
 #app {
   height: 100%;
   display: flex;
   flex-direction: column;
   .this_header {
-    height: 80px;
-    background: #009933;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    padding-left: .5em;
+    background-color: #009933;
+    >h1 {
+      display: inline-flex;
+      height: 80%;
+      align-items: center;
+      margin-left: .5em;
+      font-size: 22px;
+      font-weight: 400;
+      color: #fff;
+      >img {
+        height: 100%;
+        margin-right: 1em;
+        border-radius: 50%;
+      }
+    }
   }
   .this_section {
     width: 100%;
@@ -225,10 +243,10 @@ export default {
       height: 100%;
       display: flex;
       flex-direction: column;
-      background: #eef1f6;
+      background-color: #eef1f6;
       .this_spread {
         width: 100%;
-        background: #eef1f6;
+        background-color: #eef1f6;
       }
       .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 200px;
@@ -249,6 +267,4 @@ export default {
     border:1px solid blue;
   }
 }
-
 </style>
-

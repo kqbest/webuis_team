@@ -141,6 +141,13 @@ const templateBinding = resolve => {
     resolve(require('../components/system/other/templateBinding.vue'));
   });
 }
+//系统工作站->其他设置->预约设置
+const appointmentSetting = resolve => {
+  require.ensure(['../components/system/other/appointmentSetting.vue'], () => {
+    resolve(require('../components/system/other/appointmentSetting.vue'));
+  });
+}
+
 
 let system=[
   {	path: '/',						          component: onCampus, 	              name: '插件管理'},
@@ -166,6 +173,7 @@ let system=[
   {	path: '/cleanDisinfection',		  component: cleanDisinfection,       name: '清洗消毒'},
   {	path: '/measurement',		        component: measurement,             name: '测值管理'},
   {	path: '/templateBinding',		    component: templateBinding,         name: '模板绑定'},
+  {	path: '/appointmentSetting',		component: appointmentSetting,      name: '预约设置'},
 ]
 
 export default system;
